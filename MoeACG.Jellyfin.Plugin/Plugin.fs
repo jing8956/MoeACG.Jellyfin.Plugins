@@ -8,7 +8,7 @@ open MoeACG.Jellyfin.Plugin.Configuration
 type Plugin(paths, serializer) =
     inherit BasePlugin<PluginConfiguration>(paths, serializer)
     
-    override _.Id   = "eb5d7894-8eef-4b36-aa6f-5d124e828ce1" |> Guid.Parse
+    override _.Id   = "38b7c2e3-9924-4b50-a808-541753db15e0" |> Guid.Parse
     override _.Name = "MoeACG.Jellyfin.Plugin"
 
     interface IHasWebPages with
