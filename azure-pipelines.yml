@@ -1,0 +1,37 @@
+trigger:
+  paths:
+   exclude:
+     - manifest.json
+  tags: 
+   include:
+     - "*"
+
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  projectName: 'MoeACG.Jellyfin.Plugin'
+  solution: '$(projectName).sln'
+  buildConfiguration: 'Release'
+
+steps:
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '$(solution)'
+    arguments: '-c $(buildConfiguration) -o $(Build.BinariesDirectory)'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)/$(projectName).dll'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(projectName).zip'
+    replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
