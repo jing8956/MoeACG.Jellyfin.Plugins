@@ -6,7 +6,6 @@ trigger:
    include:
      - "*"
 
-
 pool:
   vmImage: 'windows-latest'
 
@@ -18,9 +17,12 @@ variables:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'build'
+    command: 'publish'
+    publishWebProjects: false
     projects: '$(solution)'
     arguments: '-c $(buildConfiguration) -o $(Build.BinariesDirectory)'
+    zipAfterPublish: false
+    modifyOutputPath: false
 
 - task: ArchiveFiles@2
   inputs:
@@ -29,7 +31,13 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(projectName).zip'
     replaceExistingArchive: true
-
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)/FSharp.Core.dll'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(projectName).zip'
+    replaceExistingArchive: false
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
