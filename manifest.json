@@ -1,12 +1,20 @@
 [
-    {
-        "guid": "38b7c2e3-9924-4b50-a808-541753db15e0",
-        "name": "MoeACG 扩展",
-        "overview": "刮削器",
-        "description": "",
-        "owner": "MoeACG",
-        "category": "General",
-        "versions": [
-        ]
-    }
+  {
+    "guid": "38b7c2e3-9924-4b50-a808-541753db15e0",
+    "name": "MoeACG 扩展",
+    "overview": "刮削器",
+    "description": "",
+    "owner": "MoeACG",
+    "category": "General",
+    "versions": [
+      {
+        "version": "0.0.0.0",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 1d0c364071cb2a23961af6cf82a3144e75cc0c12 Set up CI with Azure Pipelines\r\n* 9c1662dbf5477dd7b54b3066d73f27f7906d7018 添加 manifest.json。\r\n* be4f73b3ddf79ada40e55002f3ef0242691c61d6 替换新的GUID。\r\n* 3d05cf02d01d70a47db263365deaa11c8f0c89ae 添加项目文件。\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=67&_a=release-summary).",
+        "targetAbi": "10.7.2.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.0/MoeACG.Jellyfin.Plugin.zip",
+        "checksum": "3763976c0a812d90520a87b89e2d45df",
+        "timestamp": "2021-05-06 13:36:57"
+      }
+    ]
+  }
 ]
