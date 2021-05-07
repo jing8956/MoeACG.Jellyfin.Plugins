@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.0.0.2",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 7e5088158d11cdcf2515ea4b102a1f77c0bdca2e 清除写死的 Version。\r\n* 44fda6af2de314533a8949a085b53a4aa7bc5c3a Update azure-pipelines.yml for Azure Pipelines\r\n* 3364914a7546b780785e9a6e30847c856fcfea23 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=91&_a=release-summary).",
+        "targetAbi": "10.7.2.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.2/MoeACG.Jellyfin.Plugin.zip",
+        "checksum": "e100c4c929a06153fd3213834fafd870",
+        "timestamp": "2021-05-07 03:41:10"
+      },
+      {
         "version": "0.0.0.1",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 3ec5d222e689702812f76bbe00186f0f31a954f3 Update azure-pipelines.yml for Azure Pipelines Includ FSharp.Core.dll\r\n* 3382abe55ebc7b218f45aae3405402411d218248 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=90&_a=release-summary).",
         "targetAbi": "10.7.2.0",
