@@ -15,15 +15,22 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: PowerShell@2
+  displayName: Set the tag name as an environment variable
+  inputs:
+    targetType: 'inline'
+    script: |
+      $VersionTag = git describe --tags
+      Write-Host "##vso[task.setvariable variable=Version.Tag]$VersionTag"
+    pwsh: true
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
     publishWebProjects: false
     projects: '$(solution)'
-    arguments: '-c $(buildConfiguration) -o $(Build.BinariesDirectory)'
+    arguments: '-c $(buildConfiguration) -o $(Build.BinariesDirectory) -p:Version=$(Version.Tag)'
     zipAfterPublish: false
     modifyOutputPath: false
-
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)/$(projectName).dll'
