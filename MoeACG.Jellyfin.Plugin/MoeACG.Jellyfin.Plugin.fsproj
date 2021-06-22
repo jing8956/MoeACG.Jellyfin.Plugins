@@ -7,7 +7,10 @@
   <ItemGroup>
 	<EmbeddedResource Include="Configuration\configPage.html" />
 	<Compile Include="Configuration\PluginConfiguration.fs" />
-    <Compile Include="Plugin.fs" />
+	<Compile Include="Plugin.fs" />
+	<Compile Include="Resolver\Reslove.fsi" />
+	<Compile Include="Resolver\Reslove.fs" />
+	<Compile Include="Resolver\Reslovers.fs" />
   </ItemGroup>
 
   <ItemGroup>
