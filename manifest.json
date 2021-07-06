@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.0.0.4",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* a414218f55e4c05cc75e63c309755b08e52d5aa2 fix bug\r\n* 5e9569eddcabcdb4948d2b75b17ff74c86c0c9dc Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=93&_a=release-summary).",
+        "targetAbi": "10.7.2.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.4/MoeACG.Jellyfin.Plugin.zip",
+        "checksum": "4c7a7170d6b1be48429148ad2e16429c",
+        "timestamp": "2021-07-06 18:05:34"
+      },
+      {
         "version": "0.0.0.3",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 0c7bcf2205944b779a9d9898f51dd3f8851e0807 resolveEpisode\r\n* 293d8674f3634fc9afa03ab93b318b8a9ec6f919 resloveBase resolveSeries resolveSeason\r\n* 0cf2695b349f8fe84617a50ef72acd86ef0b60b2 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=92&_a=release-summary).",
         "targetAbi": "10.7.2.0",
