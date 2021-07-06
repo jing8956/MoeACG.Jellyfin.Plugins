@@ -34,8 +34,8 @@ type PluginConfiguration() =
         |] with get, set
     member val EpisodePattern = 
         [| 
-            @"^(?:(?:EP|(?<specialSeason>OVA|SP))?(?<epnumber>[0-9.]+)?Y?(?:\[baha])?(?:[\. ](?<episodename>.*?))?\.[A-z1-9]+$"
-            @"^(?:[[【](?<header>Nekomoe kissaten|LKSUB|UHA-WINGS|YG&Neo.sub|KTXP|動畫瘋|HYSUB|UHA-WINGS|Nekomoe kissaten&VCB-Studio|BDRIP)[\]】]\[?\ ?(?:巴哈 )?(?<seriesname>.+?)[\ \]]?(?:第(?<seasonnumber>[一二三四五六七八九十1-9])季[ ]?|[Ss](?<seasonnumber>[1-9]))?(?<specialSeason>\[特別篇])?(?:\[年齡限制版])?(?:\ (?<epnumber>[0-9.]+)\ |]?\[(?<epnumber>[0-9.]+)])?(?:\[[^\]]*])*\.[A-z1-9]+$"
+            @"^(?:(?:EP|(?<specialSeason>OVA|SP))?(?<epnumber>[0-9.]+)?Y?(?:\[baha])?(?:[\. ](?<episodename>.*?))?\.[A-z1-9]+)$"
+            @"^(?:[[【](?<header>Nekomoe kissaten|LKSUB|UHA-WINGS|YG&Neo.sub|KTXP|動畫瘋|HYSUB|UHA-WINGS|Nekomoe kissaten&VCB-Studio|BDRIP)[\] 】]\[?\ ?(?:巴哈 )?(?<seriesname>.+?)[\ \]]?(?:第(?<seasonnumber>[一二三四五六七八九十1-9])季[ ]?|[Ss](?<seasonnumber>[1-9]))?(?<specialSeason>\[特別篇])?(?:\[年齡限制版])?(?:\ (?<epnumber>[0-9.]+)\ |]?\[(?<epnumber>[0-9.]+)])?(?:\[[^\]]*])*\.[A-z1-9]+)$"
             @"^(?<seriesname>.+?)_(?<epnumber>[0-9.]+) \(480P\)_baofeng\.mp4$"
             @"^(?<seriesname>.+?)(?: S(?<seasonnumber>[1-9]))?(?: (?<epnumber>[0-9.]+))?(?: (?<specialSeason>OVA))?(?: END)? \[BD 1920x1080 HEVC-10bit OPUS ASSx2]\.mkv$"
             @"^\[(?<seriesname>.+?)]\[(?<specialSeason>OVA)]\[简日]\[720P]\.mp4$"

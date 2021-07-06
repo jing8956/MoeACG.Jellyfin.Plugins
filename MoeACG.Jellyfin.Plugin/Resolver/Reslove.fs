@@ -91,20 +91,19 @@ open Match
 open System
 
 let logArgs (logger: ILogger<_>) (args:Args) =
-    logger.LogInformation("Begin Resolve, Path: {0}", args.Path)
+    logger.LogDebug("Begin Resolve, Path: {0}", args.Path)
     args
-let logResult (logger: ILogger<_>) result =
+let logResult (logger: ILogger<_>) (args:Args) result =
     match result with
     | Ok value ->
-        let options = new System.Text.Json.JsonSerializerOptions(WriteIndented = true)
-        let json = System.Text.Json.JsonSerializer.Serialize(value, options)
-        logger.LogInformation("Resolve succeed: {0}", json)
-    | Error reasons -> logger.LogInformation("Resolve failed, because: {0}", box reasons)
+        let value = value :> BaseItem
+        logger.LogDebug("Resolve succeed: {0}", value.Name)
+    | Error reasons -> logger.LogInformation("Resolve {0} failed, because: {1}", args.Path, box reasons)
     result
 let getResultValueOrNull = function | Ok value -> value | Error _ -> null
 
-let resloveBase validator binder logger = 
-    logArgs logger >> validator >> Result.bind binder >> logResult logger >> getResultValueOrNull
+let resloveBase validator binder logger args = 
+    args |> logArgs logger |> validator |> Result.bind binder |> logResult logger args |> getResultValueOrNull
 let resolveSeries logger regexs args =
     let validator =
         [
