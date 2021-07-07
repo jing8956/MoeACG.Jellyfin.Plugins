@@ -19,16 +19,16 @@ type FolderResolver<'TFolder
 open Reslove
 type SeriesResolver(logger: ILogger<SeriesResolver>) =
     inherit FolderResolver<Series>()
-    let regexs = createSeriesRegexs logger
+    let regexs = createSeriesRegexs logger |> Array.ofSeq
     override _.Priority = ResolverPriority.First
     override _.Resolve(args) = resolveSeries logger regexs args
 type SeasonResolver(logger: ILogger<SeasonResolver>) =
     inherit FolderResolver<Season>()
-    let regexs = createSeasonRegexs logger
+    let regexs = createSeasonRegexs logger |> Array.ofSeq
     override _.Priority = ResolverPriority.First
     override _.Resolve(args) = resolveSeason logger regexs args
 type EpisodeResolver(logger: ILogger<EpisodeResolver>) = 
     inherit ItemResolver<Episode>()
-    let regexs = createEpisodeRegexs logger
+    let regexs = createEpisodeRegexs logger |> Array.ofSeq
     override _.Priority = ResolverPriority.First
     override _.Resolve(args) = resolveEpisode logger regexs args

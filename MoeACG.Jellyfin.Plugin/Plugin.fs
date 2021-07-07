@@ -1,4 +1,4 @@
-﻿namespace MoeACG.Jellyfin.Plugin
+namespace MoeACG.Jellyfin.Plugin
 
 open System
 open MediaBrowser.Common.Plugins

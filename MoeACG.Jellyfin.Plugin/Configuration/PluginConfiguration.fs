@@ -26,20 +26,20 @@ type PluginConfiguration() =
 
     member val SeriesPattern = 
         [| 
-            @"(?:¡¾[^¡¿]*¡¿)? ?(?<seriesname>.*?) ?(?:[µÚÈ«×î].¼¾.*|\[[^\]]*].*|(?<=[ \p{IsCJKUnifiedIdeographs}])[1-9]$|SP.*|[¢ñ-¢ú]|OAD|$)" 
+            @"(?:ã€[^ã€‘]*ã€‘)? ?(?<seriesname>.*?) ?(?:[ç¬¬å…¨æœ€].å­£.*|\[[^\]]*].*|(?<=[ \p{IsCJKUnifiedIdeographs}])[1-9]$|SP.*|[â… -â…©]|OAD|$)" 
         |] with get, set
     member val SeasonPattern = 
         [| 
-            @"(?:\[Nekomoe kissaten])\[(?<seriesname>.*?) S(?<seasonnumber>[1-9])].*|(?:¡¾[^¡¿]*¡¿)? ?(?<seriesname>.*?) ?(?:µÚ(?<seasonnumber>[Ò»¶şÈıËÄÎåÁùÆß°Ë¾ÅÊ®1-9])¼¾[ ]?|(?<=[ \-\p{IsCJKUnifiedIdeographs}]|^)(?<seasonnumber>[1-9])$|(?<seasonnumber>[¢ñ-¢ú]))?(?:(?<specialSeason>SPs?|OAD|OVA|¾ç³¡°æ|\[ÌØ[±ğ„e]Æª]|Extras)|µÚ(?<seasonnumber>Ò»)¼¾1998|\[[^\]]*].*|[TM]V|(?:1080|720)P|$)" 
+            @"(?:\[Nekomoe kissaten])\[(?<seriesname>.*?) S(?<seasonnumber>[1-9])].*|(?:ã€[^ã€‘]*ã€‘)? ?(?<seriesname>.*?) ?(?:ç¬¬(?<seasonnumber>[ä¸€äºŒä¸‰å››äº”å…­ä¸ƒå…«ä¹å1-9])å­£[ ]?|(?<=[ \-\p{IsCJKUnifiedIdeographs}]|^)(?<seasonnumber>[1-9])$|(?<seasonnumber>[â… -â…©]))?(?:(?<specialSeason>SPs?|OAD|OVA|å‰§åœºç‰ˆ|\[ç‰¹[åˆ«åˆ¥]ç¯‡]|Extras)|ç¬¬(?<seasonnumber>ä¸€)å­£1998|\[[^\]]*].*|[TM]V|(?:1080|720)P|$)" 
         |] with get, set
     member val EpisodePattern = 
         [| 
             @"^(?:(?:EP|(?<specialSeason>OVA|SP))?(?<epnumber>[0-9.]+)?Y?(?:\[baha])?(?:[\. ](?<episodename>.*?))?\.[A-z1-9]+)$"
-            @"^(?:[[¡¾](?<header>Nekomoe kissaten|LKSUB|UHA-WINGS|YG&Neo.sub|KTXP|„Ó®‹¯‚|HYSUB|UHA-WINGS|Nekomoe kissaten&VCB-Studio|BDRIP)[\] ¡¿]\[?\ ?(?:°Í¹ş )?(?<seriesname>.+?)[\ \]]?(?:µÚ(?<seasonnumber>[Ò»¶şÈıËÄÎåÁùÆß°Ë¾ÅÊ®1-9])¼¾[ ]?|[Ss](?<seasonnumber>[1-9]))?(?<specialSeason>\[ÌØ„eÆª])?(?:\[ÄêıgÏŞÖÆ°æ])?(?:\ (?<epnumber>[0-9.]+)\ |]?\[(?<epnumber>[0-9.]+)])?(?:\[[^\]]*])*\.[A-z1-9]+)$"
+            @"^(?:[[ã€](?<header>Nekomoe kissaten|LKSUB|UHA-WINGS|YG&Neo.sub|KTXP|å‹•ç•«ç˜‹|HYSUB|UHA-WINGS|Nekomoe kissaten&VCB-Studio|BDRIP)[\] ã€‘]\[?\ ?(?:å·´å“ˆ )?(?<seriesname>.+?)[\ \]]?(?:ç¬¬(?<seasonnumber>[ä¸€äºŒä¸‰å››äº”å…­ä¸ƒå…«ä¹å1-9])å­£[ ]?|[Ss](?<seasonnumber>[1-9]))?(?<specialSeason>\[ç‰¹åˆ¥ç¯‡])?(?:\[å¹´é½¡é™åˆ¶ç‰ˆ])?(?:\ (?<epnumber>[0-9.]+)\ |]?\[(?<epnumber>[0-9.]+)])?(?:\[[^\]]*])*\.[A-z1-9]+)$"
             @"^(?<seriesname>.+?)_(?<epnumber>[0-9.]+) \(480P\)_baofeng\.mp4$"
             @"^(?<seriesname>.+?)(?: S(?<seasonnumber>[1-9]))?(?: (?<epnumber>[0-9.]+))?(?: (?<specialSeason>OVA))?(?: END)? \[BD 1920x1080 HEVC-10bit OPUS ASSx2]\.mkv$"
-            @"^\[(?<seriesname>.+?)]\[(?<specialSeason>OVA)]\[¼òÈÕ]\[720P]\.mp4$"
-            @"^¡¾Âş·æÍø¡¿(?<seriesname>.+?) ¼òÌå\.mp4$"
+            @"^\[(?<seriesname>.+?)]\[(?<specialSeason>OVA)]\[ç®€æ—¥]\[720P]\.mp4$"
+            @"^ã€æ¼«é”‹ç½‘ã€‘(?<seriesname>.+?) ç®€ä½“\.mp4$"
             @"^(?<episodename>.+?)\.[A-z1-9]+$"
         |] with get, set
 

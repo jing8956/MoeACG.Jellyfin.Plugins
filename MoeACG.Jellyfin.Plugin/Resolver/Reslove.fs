@@ -67,7 +67,7 @@ module Match =
     let episodeNameGroupName = config().EpisodeNameGroupName
 
     let getSeriesNameGroupValue = getGroupValue (seriesNameGroupName)
-    let private hanziNumberTable = "一二三四五六七八九";
+    let private hanziNumberTable = "涓�浜屼笁鍥涗簲鍏竷鍏節";
     let getSeasonNumberGroupValue ssMatch = 
         let getSpecialSeasonGroupValue = getGroupValue (specialSeasonGroupName)
         let isSpecal = ssMatch |> getSpecialSeasonGroupValue |> (String.IsNullOrEmpty) |> not
@@ -79,7 +79,7 @@ module Match =
                | true -> -1
                | false -> 
                    match strValue.[0] with
-                   | numChar when numChar >= '一' -> hanziNumberTable.IndexOf(numChar) + 1
+                   | numChar when numChar >= '涓�' -> hanziNumberTable.IndexOf(numChar) + 1
                    | numChar when numChar >= '\u2160' -> int numChar - int '\u2160' + 1
                    | numChar -> int numChar - int '1' + 1
                    
@@ -205,6 +205,7 @@ let resolveEpisode logger regexs args =
     
 let createRegexBase (logger:ILogger<_>) = Seq.choose (fun pattern -> 
     try
+      logger.LogInformation("Create regex, pattern: {0}", box pattern)
       new Regex(pattern, Plugin.Configuration.DefaultRegexOptions) |> Some
     with
     | :? RegexParseException as e -> 
