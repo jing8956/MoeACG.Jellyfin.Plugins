@@ -5,11 +5,45 @@
     <title>MoeACG.Jellyfin.Plugin</title>
 </head>
 <body>
-    <div id="TemplateConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
+    <div id="MoeACGConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
         <div data-role="content">
             <div class="content-primary">
-                <form id="TemplateConfigForm">
-                    <label>MoeACG.Jellyfin.Plugin V<span id="version">1.0.0.0</span></label>
+                <form id="MoeACGConfigForm">
+                    <p>MoeACG.Jellyfin.Plugin V<span id="version"></span></p>
+                    <div>
+                        <p>正则表达式选项：<span id="regexOptions"></span></p>
+                        <label>正则表达式命名组名称：</label>
+                        <table width="100%">
+                            <thead>
+                                <tr><td>组</td><td>值</td></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>系列名</td><td id="seriesName"></td></tr>
+                                <tr><td>季号</td><td id="seasonNumber"></td></tr>
+                                <tr><td>集号</td><td id="episodeNumber"></td></tr>
+                                <tr><td>特殊季</td><td id="specialSeason"></td></tr>
+                                <tr><td>集名</td><td id="episodeName"></td></tr>
+                            </tbody>
+                        </table>
+                        <br>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="textareaLabel" for="seriesPatterns">系列表达式：</label><br />
+                        <textarea id="seriesPatterns" class="emby-textarea" is="emby-textarea" label="系列表达式：" spellcheck="false" style="height: 137px; width: 100%; white-space: nowrap;"></textarea>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="textareaLabel" for="seasonPatterns">季表达式：</label><br />
+                        <textarea id="seasonPatterns" class="emby-textarea" is="emby-textarea" label="季列表达式：" spellcheck="false" style=" height: 137px; width: 100%; white-space: nowrap;"></textarea>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="textareaLabel" for="episodePatterns">集表达式：</label><br />
+                        <textarea id="episodePatterns" class="emby-textarea" is="emby-textarea" label="集列表达式：" spellcheck="false" style="height: 137px; width: 100%; white-space: nowrap;"></textarea>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="textareaLabel" for="videoExtensions">视频文件后缀名：</label><br />
+                        <textarea id="videoExtensions" class="emby-textarea" is="emby-textarea" label="视频文件后缀名：" spellcheck="false" style="height: 137px; width: 100%; white-space: nowrap;"></textarea>
+                    </div>
+
                     <!--
     <div class="selectContainer">
         <label class="selectLabel" for="Options">Several Options</label>
@@ -48,34 +82,53 @@
                 pluginUniqueId: '38b7c2e3-9924-4b50-a808-541753db15e0'
             };
 
-            document.querySelector('#TemplateConfigPage')
-                .addEventListener('pageshow', function() {
+            document.querySelector('#MoeACGConfigPage')
+                .addEventListener('pageshow', function () {
                     Dashboard.showLoadingMsg();
                     ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
-                        document.querySelector('#version').textContent = config.Version
+                        document.querySelector('#version').textContent = config.Version;
+                        document.querySelector('#regexOptions').textContent = config.RegexOptions;
+
+                        document.querySelector('#seriesName').textContent = config.SeriesNameGroupName;
+                        document.querySelector('#seasonNumber').textContent = config.SeasonNumberGroupName;
+                        document.querySelector('#episodeNumber').textContent = config.EpisodeNumberGroupName;
+                        document.querySelector('#specialSeason').textContent = config.SpecialSeasonGroupName;
+                        document.querySelector('#episodeName').textContent = config.EpisodeNameGroupName;
+
+                        document.querySelector('#seriesPatterns').value = config.SeriesPatterns.join("\n");
+                        document.querySelector('#seasonPatterns').value = config.SeasonPatterns.join("\n");
+                        document.querySelector('#episodePatterns').value = config.EpisodePatterns.join("\n");
+                        document.querySelector('#videoExtensions').value = config.VideoExtensions.join("\n");
+
                         // document.querySelector('#Options').value = config.Options;
                         // document.querySelector('#AnInteger').value = config.AnInteger;
                         // document.querySelector('#TrueFalseSetting').checked = config.TrueFalseSetting;
                         // document.querySelector('#AString').value = config.AString;
                         Dashboard.hideLoadingMsg();
-                    });    
-                });
-            
-            document.querySelector('#TemplateConfigForm')
-                .addEventListener('submit', function() {
-                Dashboard.showLoadingMsg();
-                ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
-                    // config.Options = document.querySelector('#Options').value;
-                    // config.AnInteger = document.querySelector('#AnInteger').value;
-                    // config.TrueFalseSetting = document.querySelector('#TrueFalseSetting').checked;
-                    // config.AString = document.querySelector('#AString').value;
-                    ApiClient.updatePluginConfiguration(TemplateConfig.pluginUniqueId, config).then(function (result) {
-                        Dashboard.processPluginConfigurationUpdateResult(result);
                     });
                 });
+            
+            document.querySelector('#MoeACGConfigForm')
+                .addEventListener('submit', function () {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
+                        console.log(document.querySelector('#seriesPatterns').value);
+                        config.SeriesPatterns = document.querySelector('#seriesPatterns').value.split('\n');
+                        config.SeasonPatterns = document.querySelector('#seasonPatterns').value.split('\n');
+                        config.EpisodePatterns = document.querySelector('#episodePatterns').value.split('\n');
+                        config.VideoExtensions = document.querySelector('#videoExtensions').value.split('\n');
+                        // config.Options = document.querySelector('#Options').value;
+                        // config.AnInteger = document.querySelector('#AnInteger').value;
+                        // config.TrueFalseSetting = document.querySelector('#TrueFalseSetting').checked;
+                        // config.AString = document.querySelector('#AString').value;
+                        ApiClient.updatePluginConfiguration(TemplateConfig.pluginUniqueId, config).then(function (result) {
+                            Dashboard.processPluginConfigurationUpdateResult(result);
+                        });
+                    });
 
-                return false;
-            });
+                    event.preventDefault();
+                    return false;
+                });
         </script>
     </div>
 </body>

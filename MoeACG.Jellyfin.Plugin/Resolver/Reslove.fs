@@ -54,9 +54,6 @@ let matchInput (regexs:Regex seq) input =
 let isMatchValidate = validate Option.isSome "Match is failed." >> Result.map Option.get
 let getGroupValue (groupname:string) (m:Match) = m.Groups.[groupname].Value
 
-let numberGroupName = Plugin.Configuration.SeasonNumberGroupName
-let specialGroupName = Plugin.Configuration.SpecialSeasonGroupName
-
 module Match =
     let private config() = Plugin.Configuration
 
@@ -206,11 +203,11 @@ let resolveEpisode logger regexs args =
 let createRegexBase (logger:ILogger<_>) = Seq.choose (fun pattern -> 
     try
       logger.LogInformation("Create regex, pattern: {0}", box pattern)
-      new Regex(pattern, Plugin.Configuration.DefaultRegexOptions) |> Some
+      new Regex(pattern, Plugin.Configuration.RegexOptions) |> Some
     with
     | :? RegexParseException as e -> 
         logger.LogError(e.ToString())
         None) 
-let createSeriesRegexs logger  = Plugin.Configuration.SeriesPattern  |> createRegexBase logger
-let createSeasonRegexs logger  = Plugin.Configuration.SeasonPattern  |> createRegexBase logger
-let createEpisodeRegexs logger = Plugin.Configuration.EpisodePattern |> createRegexBase logger
+let createSeriesRegexs logger  = Plugin.Configuration.SeriesPatterns  |> createRegexBase logger
+let createSeasonRegexs logger  = Plugin.Configuration.SeasonPatterns  |> createRegexBase logger
+let createEpisodeRegexs logger = Plugin.Configuration.EpisodePatterns |> createRegexBase logger

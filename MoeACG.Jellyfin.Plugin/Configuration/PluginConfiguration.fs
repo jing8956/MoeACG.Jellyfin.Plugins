@@ -16,23 +16,23 @@ type PluginConfiguration() =
     // member val AString          = "string"                  with get, set
     // member val Options          = SomeOptions.AnotherOption with get, set
 
-    member val DefaultRegexOptions =  RegexOptions.IgnoreCase ||| RegexOptions.Compiled
+    member val RegexOptions =  RegexOptions.IgnoreCase ||| RegexOptions.Compiled with get, set
 
-    member val SeriesNameGroupName = "seriesname"
-    member val SeasonNumberGroupName = "seasonnumber"
-    member val EpisodeNumberGroupName = "epnumber"
-    member val SpecialSeasonGroupName = "specialSeason"
-    member val EpisodeNameGroupName = "episodename"
+    member val SeriesNameGroupName = "seriesname" with get, set
+    member val SeasonNumberGroupName = "seasonnumber" with get, set
+    member val EpisodeNumberGroupName = "epnumber" with get, set
+    member val SpecialSeasonGroupName = "specialSeason" with get, set
+    member val EpisodeNameGroupName = "episodename" with get, set
 
-    member val SeriesPattern = 
+    member val SeriesPatterns = 
         [| 
             @"(?:【[^】]*】)? ?(?<seriesname>.*?) ?(?:[第全最].季.*|\[[^\]]*].*|(?<=[ \p{IsCJKUnifiedIdeographs}])[1-9]$|SP.*|[Ⅰ-Ⅹ]|OAD|$)" 
         |] with get, set
-    member val SeasonPattern = 
+    member val SeasonPatterns = 
         [| 
             @"(?:\[Nekomoe kissaten])\[(?<seriesname>.*?) S(?<seasonnumber>[1-9])].*|(?:【[^】]*】)? ?(?<seriesname>.*?) ?(?:第(?<seasonnumber>[一二三四五六七八九十1-9])季[ ]?|(?<=[ \-\p{IsCJKUnifiedIdeographs}]|^)(?<seasonnumber>[1-9])$|(?<seasonnumber>[Ⅰ-Ⅹ]))?(?:(?<specialSeason>SPs?|OAD|OVA|剧场版|\[特[别別]篇]|Extras)|第(?<seasonnumber>一)季1998|\[[^\]]*].*|[TM]V|(?:1080|720)P|$)" 
         |] with get, set
-    member val EpisodePattern = 
+    member val EpisodePatterns = 
         [| 
             @"^(?:(?:EP|(?<specialSeason>OVA|SP))?(?<epnumber>[0-9.]+)?Y?(?:\[baha])?(?:[\. ](?<episodename>.*?))?\.[A-z1-9]+)$"
             @"^(?:[[【](?<header>Nekomoe kissaten|LKSUB|UHA-WINGS|YG&Neo.sub|KTXP|動畫瘋|HYSUB|UHA-WINGS|Nekomoe kissaten&VCB-Studio|BDRIP)[\] 】]\[?\ ?(?:巴哈 )?(?<seriesname>.+?)[\ \]]?(?:第(?<seasonnumber>[一二三四五六七八九十1-9])季[ ]?|[Ss](?<seasonnumber>[1-9]))?(?<specialSeason>\[特別篇])?(?:\[年齡限制版])?(?:\ (?<epnumber>[0-9.]+)\ |]?\[(?<epnumber>[0-9.]+)])?(?:\[[^\]]*])*\.[A-z1-9]+)$"
