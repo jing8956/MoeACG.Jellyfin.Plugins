@@ -115,7 +115,7 @@ let resolveSeries logger regexs args =
         let path = args |> getPath
         let seriesMatch = path |> getFileName |> matchInput regexs
 
-        let mapSeries name = new Series(Path = path, Name = name)
+        let mapSeries (name:string) = new Series(Path = path, Name = name.Replace("‛", ""))
         
         seriesMatch |> isMatchValidate
         |> Result.map getSeriesNameGroupValue
@@ -145,7 +145,6 @@ let resolveSeason logger regexs args =
         let seasonMatch = path |> getFileName |> matchInput regexs
 
         let mapSeason seasonMatch = 
-            let name = seasonMatch |> getSeriesNameGroupValue
             let number = seasonMatch |> getSeasonNumberGroupValue
 
             let season = new Season(SeriesId = parentSeries.Id)
