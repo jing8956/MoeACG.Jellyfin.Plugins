@@ -29,7 +29,7 @@ let hasChildDirectory (args:Args) =
     |> Option.map (Array.exists (fun meta -> meta.IsDirectory))
     |> Option.defaultValue false
 let isChildEmpty (args:Args) = args.FileSystemChildren = null || args.FileSystemChildren |> Array.isEmpty
-let isVideoFile (args:Args) = Array.contains args.FileInfo.Extension Plugin.Configuration.VideoExtensions
+let isVideoFile (args:Args) = Array.contains (args.FileInfo.Extension.ToLower()) Plugin.Configuration.VideoExtensions
 
 let reduceReasonResult switchList =
     let addReasonResult switch1 switch2 arg = 
@@ -41,7 +41,6 @@ let reduceReasonResult switchList =
     switchList |> List.reduce addReasonResult >> Result.mapError (sprintf "multiple reasons.\r\n%s")
 
 let getPath (args:Args) = args.Path
-let getDirectoryName (path:string) = Path.GetDirectoryName path
 let getFileName (path:string) = Path.GetFileName path
 
 let matchInput (regexs:Regex seq) input = 
@@ -50,7 +49,6 @@ let matchInput (regexs:Regex seq) input =
             let m = regex.Match(input)
             if m.Success then Some m else None
         )
-// let isSuccess (m:Match) = m.Success
 let isMatchValidate = validate Option.isSome "Match is failed." >> Result.map Option.get
 let getGroupValue (groupname:string) (m:Match) = m.Groups.[groupname].Value
 
@@ -86,6 +84,9 @@ module Match =
     let getEpisodeNameGroupName = getGroupValue (episodeNameGroupName)
 open Match
 open System
+open System.Threading
+open System
+open MediaBrowser.Controller.Library
 
 let logArgs (logger: ILogger<_>) (args:Args) =
     logger.LogDebug("Begin Resolve, Path: {0}", args.Path)
@@ -109,22 +110,24 @@ let resolveSeries logger regexs args =
             hasParent<Series> >> not, $"Has {nameof Series} Parent."
             hasParent<Season> >> not, $"Has {nameof Season} Parent."
             isChildEmpty >> not, "Has no subfolders."
-            hasChildDirectory, "Has no subfolders."
         ] |> mapValidateFunction |> reduceReasonResult
     let bindSeries (args:Args) =
         let path = args |> getPath
-        let seriesMatch = path |> getDirectoryName |> matchInput regexs
+        let seriesMatch = path |> getFileName |> matchInput regexs
 
+        let mapSeries name = new Series(Path = path, Name = name)
+        
         seriesMatch |> isMatchValidate
         |> Result.map getSeriesNameGroupValue
-        |> Result.bind (validate (String.IsNullOrEmpty) $"Group \"{seriesNameGroupName}\" Value is null or empty.")
-        |> Result.map (fun name -> new Series(Path = path, Name = name))
+        |> Result.bind (validate (String.IsNullOrEmpty >> not) $"Group \"{seriesNameGroupName}\" Value is null or empty.")
+        |> Result.map (mapSeries)
     args |> resloveBase validator bindSeries logger
 let resolveSeason logger regexs args =
     let validator = 
         [
             isTvShows, $"CollectionType is not {CollectionType.TvShows}."
             isDirectory, "Is not Directory."
+            hasParent<Series>, $"Has not {nameof Series} Parent."
             hasParent<Season> >> not, $"Has {nameof Season} Parent."
             isChildEmpty >> not, "Has no files."
             hasChildDirectory >> not, "Has subfolders."
@@ -139,15 +142,13 @@ let resolveSeason logger regexs args =
             findParent args.Parent :> Series
 
         let path = args |> getPath
-        let seasonMatch = path |> getDirectoryName |> matchInput regexs
+        let seasonMatch = path |> getFileName |> matchInput regexs
 
         let mapSeason seasonMatch = 
             let name = seasonMatch |> getSeriesNameGroupValue
             let number = seasonMatch |> getSeasonNumberGroupValue
 
-            let season = new Season()
-            if parentSeries <> null then season.SeriesId <- parentSeries.Id
-            if name |> (String.IsNullOrEmpty) |> not then season.Name <- name
+            let season = new Season(SeriesId = parentSeries.Id)
             if number <> -1 then season.IndexNumber <- number
             season
         Ok(parentSeries)
@@ -157,7 +158,7 @@ let resolveSeason logger regexs args =
     args |> resloveBase validator bindSeason logger
 
 open Microsoft.FSharp.Linq.NullableOperators
-let resolveEpisode logger regexs args =
+let resolveEpisode logger regexs ssRegex args =
     let validator = 
         [
             isTvShows, $"CollectionType is not {CollectionType.TvShows}."
@@ -175,7 +176,7 @@ let resolveEpisode logger regexs args =
             findSeriesAndSeason args.Parent
 
         let path = args |> getPath
-        let episodeMatch = path |> getDirectoryName |> matchInput regexs
+        let episodeMatch = path |> getFileName |> matchInput regexs
         let mapEpisode episodeMatch = 
             let name = episodeMatch |> getSeriesNameGroupValue
             let ssNumber = episodeMatch |> getSeasonNumberGroupValue
@@ -183,14 +184,26 @@ let resolveEpisode logger regexs args =
             let epName = episodeMatch |> getEpisodeNameGroupName
             let ssNumber = if Decimal.Truncate(epNumber) <> epNumber then 0 else ssNumber
 
-            let ep = new Episode(SeriesId = parentSeries.Value.Id)
-            
+            let ep = new Episode()
+            parentSeries
+            |> Option.map Option.ofObj |> Option.flatten 
+            |> Option.iter (fun series -> ep.SeriesId <- series.Id)
             if name |> (String.IsNullOrEmpty) |> not then ep.SeriesName <- name
             if ssNumber <> -1 then 
                 ep.ParentIndexNumber <- ssNumber
-                parentSeason |> Option.iter (fun season -> if season.IndexNumber ?= ssNumber then ep.SeasonId <- season.Id)
-            else
-                parentSeason |> Option.iter (fun season -> ep.SeasonId <- season.Id)
+            else if parentSeason |> Option.isSome then
+                 ep.SeasonId <- parentSeason.Value.Id
+            else if parentSeries |> Option.isSome then
+                let parentFileName = parentSeries.Value.Path |> getFileName
+
+                let ssMatch = parentFileName |> matchInput ssRegex
+                ssMatch |> isMatchValidate
+                |> Result.map (
+                    fun ssMatch -> 
+                        let ssNumber = ssMatch |> getSeasonNumberGroupValue
+                        if ssNumber <> -1 then ep.ParentIndexNumber <- ssNumber
+                ) |> ignore
+
             if epNumber <> -1m then ep.IndexNumber <- int32 epNumber
             if epName |> (String.IsNullOrEmpty) |> not then ep.Name <- epName
             ep
