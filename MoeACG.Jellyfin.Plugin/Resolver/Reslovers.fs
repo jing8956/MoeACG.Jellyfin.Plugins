@@ -34,4 +34,4 @@ type EpisodeResolver(logger: ILogger<EpisodeResolver>) =
     let ssRegexs = createSeasonRegexs logger |> Array.ofSeq
     let regexs = createEpisodeRegexs logger |> Array.ofSeq
     override _.Priority = ResolverPriority.First
-    override _.Resolve(args) = resolveEpisode logger regexs ssRegex args
+    override _.Resolve(args) = resolveEpisode logger regexs ssRegexs args
