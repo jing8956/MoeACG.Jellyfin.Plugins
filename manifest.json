@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.0.0.8",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* c9243c4a81c9ab358ef44ecb20d9156acc27017f 发现器\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=96&_a=release-summary).",
+        "targetAbi": "10.7.2.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.8/MoeACG.Jellyfin.Plugin.zip",
+        "checksum": "b99550f0b3f7d4faae62a6035f97f339",
+        "timestamp": "2021-07-10 16:57:39"
+      },
+      {
         "version": "0.0.0.5",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 435979cdb3a0ea10222d5052c4ed50324610a225 编码错误\r\n* 0d5e5c55faa842b7399db2f4427d89ccdb66112d Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=94&_a=release-summary).",
         "targetAbi": "10.7.2.0",
