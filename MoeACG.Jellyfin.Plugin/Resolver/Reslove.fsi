@@ -9,6 +9,6 @@ val resolveSeries  : ILogger<_> -> Regex seq -> ItemResolveArgs -> Series
 val resolveSeason  : ILogger<_> -> Regex seq -> ItemResolveArgs -> Season
 val resolveEpisode : ILogger<_> -> Regex seq -> Regex seq -> ItemResolveArgs -> Episode
 
-val createSeriesRegexs  : ILogger<_> -> Regex seq
-val createSeasonRegexs  : ILogger<_> -> Regex seq
-val createEpisodeRegexs : ILogger<_> -> Regex seq
+val createSeriesRegexs  : unit -> Regex array
+val createSeasonRegexs  : unit -> Regex array
+val createEpisodeRegexs : unit -> Regex array
