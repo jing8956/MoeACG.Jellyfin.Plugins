@@ -90,15 +90,20 @@ let logArgs (logger: ILogger<_>) (args:Args) =
     args
 let logResult (logger: ILogger<_>) (args:Args) toString result =
     match result with
-    | Ok value -> logger.LogInformation("Resolve {0} succeed: {1}", args.Path, value |> toString)
-    | Error reasons -> logger.LogInformation("Resolve {0} failed, because: {1}", args.Path, box reasons)
+    | Ok value -> logger.LogDebug("Resolve {0} succeed: {1}", args.Path, value |> toString)
+    | Error reasons -> logger.LogDebug("Resolve {0} failed, because: {1}", args.Path, box reasons)
     result
 
 let getResultValueOrNull = function | Ok value -> value | Error _ -> null
 
+let createSeriesRegexs() = Plugin.Configuration.SeriesRegexs
+let createSeasonRegexs() = Plugin.Configuration.SeasonRegexs
+let createEpisodeRegexs() = Plugin.Configuration.EpisodeRegexs
+
 let resloveBase validator binder logger toString args = 
     args |> logArgs logger |> validator |> Result.bind binder |> logResult logger args toString |> getResultValueOrNull
-let resolveSeries logger regexs args =
+let resolveSeries logger args =
+    let regexs = createSeriesRegexs()
     let validator =
         [
             isTvShows, $"CollectionType is not {CollectionType.TvShows}."
@@ -118,10 +123,11 @@ let resolveSeries logger regexs args =
         |> Result.map (mapSeries)
     let seriesToString (series: Series) =
         let sb = new StringBuilder()
-        sb.AppendLine($"Name: {series.Name}") |> ignore
+        sb.Append($"Name: {series.Name}") |> ignore
         sb.ToString()
     args |> resloveBase validator bindSeries logger seriesToString
-let resolveSeason logger regexs args =
+let resolveSeason logger args =
+    let regexs = createSeasonRegexs()
     let validator = 
         [
             isTvShows, $"CollectionType is not {CollectionType.TvShows}."
@@ -157,10 +163,12 @@ let resolveSeason logger regexs args =
     let seasonToString (season: Season) =
         let sb = new StringBuilder()
         sb.AppendLine($"SeriesName: {season.SeriesName}") |> ignore
-        sb.AppendLine($"SeasonNumber: {season.IndexNumber}") |> ignore
+        sb.Append($"SeasonNumber: {season.IndexNumber}") |> ignore
         sb.ToString() 
     args |> resloveBase validator bindSeason logger seasonToString
-let resolveEpisode logger regexs ssRegex args =
+let resolveEpisode logger args =
+    let regexs = createEpisodeRegexs()
+    let ssRegex = createSeasonRegexs()
     let validator = 
         [
             isTvShows, $"CollectionType is not {CollectionType.TvShows}."
@@ -223,10 +231,8 @@ let resolveEpisode logger regexs ssRegex args =
         sb.AppendLine($"SeriesName: {episode.SeriesName}") |> ignore
         sb.AppendLine($"Number: {episode.IndexNumber}") |> ignore
         sb.AppendLine($"Name: {episode.Name}") |> ignore
-        sb.AppendLine($"SeasonNumber: {episode.ParentIndexNumber}") |> ignore
+        sb.Append($"SeasonNumber: {episode.ParentIndexNumber}") |> ignore
         sb.ToString()
     args |> resloveBase validator bindEpisode logger episodeToString
     
-let createSeriesRegexs() = Plugin.Configuration.SeriesRegexs
-let createSeasonRegexs() = Plugin.Configuration.SeasonRegexs
-let createEpisodeRegexs() = Plugin.Configuration.EpisodeRegexs
+

@@ -20,17 +20,14 @@ open Reslove
 
 type SeriesResolver(logger: ILogger<SeriesResolver>) =
     inherit FolderResolver<Series>()
-    let regexs = createSeriesRegexs()
     override _.Priority = ResolverPriority.Second
-    override this.Resolve(args) = resolveSeries logger regexs args
+    override this.Resolve(args) = resolveSeries logger args
 type SeasonResolver(logger: ILogger<SeasonResolver>) =
     inherit FolderResolver<Season>()
     let regexs = createSeasonRegexs()
     override _.Priority = ResolverPriority.First
-    override this.Resolve(args) = resolveSeason logger regexs args
+    override this.Resolve(args) = resolveSeason logger args
 type EpisodeResolver(logger: ILogger<EpisodeResolver>) = 
     inherit ItemResolver<Episode>()
-    let regexs = createEpisodeRegexs()
-    let ssRegexs = createSeasonRegexs()
     override _.Priority = ResolverPriority.First
-    override this.Resolve(args) = resolveEpisode logger regexs ssRegexs args
+    override this.Resolve(args) = resolveEpisode logger args
