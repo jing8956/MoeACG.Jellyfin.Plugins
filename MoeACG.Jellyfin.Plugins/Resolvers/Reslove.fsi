@@ -1,4 +1,4 @@
-module MoeACG.Jellyfin.Plugin.Resolver.Reslove
+module MoeACG.Jellyfin.Plugin.Resolvers.Reslove
 
 open System.Text.RegularExpressions
 open Microsoft.Extensions.Logging

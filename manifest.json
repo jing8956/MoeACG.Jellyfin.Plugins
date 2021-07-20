@@ -11,7 +11,7 @@
         "version": "0.0.0.9",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* d7a7cda40811ef194108ec620f6b982ed157347d 发现器最后修缮\r\n* cd7b1c4969fd1c42f057647c7b81e3e08dd67fc6 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=97&_a=release-summary).",
         "targetAbi": "10.7.2.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.9/MoeACG.Jellyfin.Plugin.zip",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.9/MoeACG.Jellyfin.Plugins.zip",
         "checksum": "87a66c2779b87dfeb249a4fc5856c880",
         "timestamp": "2021-07-13 16:02:37"
       },
@@ -19,7 +19,7 @@
         "version": "0.0.0.8",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* c9243c4a81c9ab358ef44ecb20d9156acc27017f 发现器\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=96&_a=release-summary).",
         "targetAbi": "10.7.2.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.8/MoeACG.Jellyfin.Plugin.zip",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.8/MoeACG.Jellyfin.Plugins.zip",
         "checksum": "b99550f0b3f7d4faae62a6035f97f339",
         "timestamp": "2021-07-10 16:57:39"
       },
@@ -27,7 +27,7 @@
         "version": "0.0.0.5",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 435979cdb3a0ea10222d5052c4ed50324610a225 编码错误\r\n* 0d5e5c55faa842b7399db2f4427d89ccdb66112d Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=94&_a=release-summary).",
         "targetAbi": "10.7.2.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.5/MoeACG.Jellyfin.Plugin.zip",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.5/MoeACG.Jellyfin.Plugins.zip",
         "checksum": "7a328dd04a6d79d7fe3cc4bf33f68924",
         "timestamp": "2021-07-07 00:22:58"
       },
@@ -35,7 +35,7 @@
         "version": "0.0.0.4",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* a414218f55e4c05cc75e63c309755b08e52d5aa2 fix bug\r\n* 5e9569eddcabcdb4948d2b75b17ff74c86c0c9dc Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=93&_a=release-summary).",
         "targetAbi": "10.7.2.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.4/MoeACG.Jellyfin.Plugin.zip",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.4/MoeACG.Jellyfin.Plugins.zip",
         "checksum": "4c7a7170d6b1be48429148ad2e16429c",
         "timestamp": "2021-07-06 18:05:34"
       },
@@ -43,7 +43,7 @@
         "version": "0.0.0.3",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 0c7bcf2205944b779a9d9898f51dd3f8851e0807 resolveEpisode\r\n* 293d8674f3634fc9afa03ab93b318b8a9ec6f919 resloveBase resolveSeries resolveSeason\r\n* 0cf2695b349f8fe84617a50ef72acd86ef0b60b2 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=92&_a=release-summary).",
         "targetAbi": "10.7.2.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.3/MoeACG.Jellyfin.Plugin.zip",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.3/MoeACG.Jellyfin.Plugins.zip",
         "checksum": "a93e23a5660c7fc8780e85603bcba02a",
         "timestamp": "2021-07-06 17:24:06"
       },
@@ -51,7 +51,7 @@
         "version": "0.0.0.2",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 7e5088158d11cdcf2515ea4b102a1f77c0bdca2e 清除写死的 Version。\r\n* 44fda6af2de314533a8949a085b53a4aa7bc5c3a Update azure-pipelines.yml for Azure Pipelines\r\n* 3364914a7546b780785e9a6e30847c856fcfea23 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=91&_a=release-summary).",
         "targetAbi": "10.7.2.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.2/MoeACG.Jellyfin.Plugin.zip",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.2/MoeACG.Jellyfin.Plugins.zip",
         "checksum": "e100c4c929a06153fd3213834fafd870",
         "timestamp": "2021-05-07 03:41:10"
       },
@@ -59,7 +59,7 @@
         "version": "0.0.0.1",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 3ec5d222e689702812f76bbe00186f0f31a954f3 Update azure-pipelines.yml for Azure Pipelines Includ FSharp.Core.dll\r\n* 3382abe55ebc7b218f45aae3405402411d218248 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=90&_a=release-summary).",
         "targetAbi": "10.7.2.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.1/MoeACG.Jellyfin.Plugin.zip",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.1/MoeACG.Jellyfin.Plugins.zip",
         "checksum": "50a593ded63a39bde2ad45a524fbc557",
         "timestamp": "2021-05-06 16:00:06"
       },
@@ -67,7 +67,7 @@
         "version": "0.0.0.0",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 1d0c364071cb2a23961af6cf82a3144e75cc0c12 Set up CI with Azure Pipelines\r\n* 9c1662dbf5477dd7b54b3066d73f27f7906d7018 添加 manifest.json。\r\n* be4f73b3ddf79ada40e55002f3ef0242691c61d6 替换新的GUID。\r\n* 3d05cf02d01d70a47db263365deaa11c8f0c89ae 添加项目文件。\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=67&_a=release-summary).",
         "targetAbi": "10.7.2.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugin/releases/download/0.0.0.0/MoeACG.Jellyfin.Plugin.zip",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.0/MoeACG.Jellyfin.Plugins.zip",
         "checksum": "3763976c0a812d90520a87b89e2d45df",
         "timestamp": "2021-05-06 13:36:57"
       }

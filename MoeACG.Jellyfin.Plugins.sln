@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MoeACG.Jellyfin.Plugin", "MoeACG.Jellyfin.Plugin\MoeACG.Jellyfin.Plugin.fsproj", "{5812C745-0FD1-4AC9-B363-9C3E4BDC2680}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MoeACG.Jellyfin.Plugins", "MoeACG.Jellyfin.Plugins\MoeACG.Jellyfin.Plugins.fsproj", "{5812C745-0FD1-4AC9-B363-9C3E4BDC2680}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

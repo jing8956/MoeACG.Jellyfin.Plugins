@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  projectName: 'MoeACG.Jellyfin.Plugin'
+  projectName: 'MoeACG.Jellyfin.Plugins'
   solution: '$(projectName).sln'
   buildConfiguration: 'Release'
 

@@ -8,14 +8,22 @@
 	<EmbeddedResource Include="Configuration\configPage.html" />
 	<Compile Include="Configuration\PluginConfiguration.fs" />
 	<Compile Include="Plugin.fs" />
-	<Compile Include="Resolver\Reslove.fsi" />
-	<Compile Include="Resolver\Reslove.fs" />
-	<Compile Include="Resolver\Reslovers.fs" />
+	<Compile Include="Resolvers\Reslove.fsi" />
+	<Compile Include="Resolvers\Reslove.fs" />
+	<Compile Include="Resolvers\Reslovers.fs" />
+	<Compile Include="Providers\Tmdb\TmdbUtils.fs" />
+	<Compile Include="Providers\Tmdb\TmdbSeriesProvider.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Jellyfin.Controller" Version="10.*-*" />
     <PackageReference Include="Jellyfin.Model" Version="10.*-*" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="TMDbLib" Version="1.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="5.0.2" />
   </ItemGroup>
 
 </Project>
