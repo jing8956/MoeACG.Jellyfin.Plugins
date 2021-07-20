@@ -12,6 +12,7 @@
 	<Compile Include="Resolvers\Reslove.fs" />
 	<Compile Include="Resolvers\Reslovers.fs" />
 	<Compile Include="Providers\Tmdb\TmdbUtils.fs" />
+	<Compile Include="Providers\Tmdb\TmdbClientManager.fs" />
 	<Compile Include="Providers\Tmdb\TmdbSeriesProvider.fs" />
   </ItemGroup>
 
