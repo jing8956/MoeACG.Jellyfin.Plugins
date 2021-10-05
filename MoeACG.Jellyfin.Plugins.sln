@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MoeACG.Jellyfin.Plugins", "MoeACG.Jellyfin.Plugins\MoeACG.Jellyfin.Plugins.fsproj", "{5812C745-0FD1-4AC9-B363-9C3E4BDC2680}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "MoeACG.Jellyfin.Plugins", "MoeACG.Jellyfin.Plugins\MoeACG.Jellyfin.Plugins.fsproj", "{5812C745-0FD1-4AC9-B363-9C3E4BDC2680}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,9 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5812C745-0FD1-4AC9-B363-9C3E4BDC2680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +27,11 @@ Global
 		{5812C745-0FD1-4AC9-B363-9C3E4BDC2680}.Release|x64.Build.0 = Release|Any CPU
 		{5812C745-0FD1-4AC9-B363-9C3E4BDC2680}.Release|x86.ActiveCfg = Release|Any CPU
 		{5812C745-0FD1-4AC9-B363-9C3E4BDC2680}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F815056E-F06D-4A83-87C7-3AB4D018F0A8}
 	EndGlobalSection
 EndGlobal
