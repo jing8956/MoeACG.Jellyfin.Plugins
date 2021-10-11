@@ -1,7 +1,6 @@
 namespace MoeACG.Jellyfin.Plugin.Providers.Tmdb
 
 open System
-open System.Linq
 open System.Net.Http
 open MediaBrowser.Common.Net
 open MediaBrowser.Controller.Entities
@@ -10,7 +9,6 @@ open MediaBrowser.Controller.Providers
 open MediaBrowser.Model.Entities
 open MediaBrowser.Model.Providers
 open TMDbLib.Objects.Find
-open TMDbLib.Objects.General
 open TMDbLib.Objects.Search
 open TMDbLib.Objects.TvShows
 

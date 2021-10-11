@@ -18,6 +18,7 @@
     <Compile Include="Providers\Tmdb\TmdbSeriesProvider.fs" />
     <Compile Include="Providers\Tmdb\TmdbSeriesImageProvider.fs" />
     <Compile Include="Providers\Tmdb\TmdbSeasonProvider.fs" />
+    <Compile Include="Providers\Tmdb\TmdbSeasonImageProvider.fs" />
   </ItemGroup>
 
   <ItemGroup>

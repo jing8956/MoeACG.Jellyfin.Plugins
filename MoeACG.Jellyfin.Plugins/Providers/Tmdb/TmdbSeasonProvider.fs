@@ -2,16 +2,17 @@ namespace MoeACG.Jellyfin.Plugin.Providers.Tmdb
 
 open System
 open System.Net.Http
+open System.Threading.Tasks
 open MediaBrowser.Common.Net
 open MediaBrowser.Controller.Providers
 open MediaBrowser.Controller.Entities.TV
 open MediaBrowser.Model.Entities
+open TMDbLib.Objects.TvShows
 
 type TmdbSeasonProvider(httpClientFactory: IHttpClientFactory, tmdbClientManager: TmdbClientManager) =
-
     interface IRemoteMetadataProvider<Season, ItemLookupInfo> with
         member _.Name = TmdbUtils.ProviderName
-        member _.GetSearchResults(searchInfo, cancellationToken) = null
+        member _.GetSearchResults(_searchInfo, _cancellationToken) = Seq.empty |> Task.FromResult
         member _.GetMetadata(info, cancellationToken) =
             async {
                 let info = info :?> SeasonInfo
@@ -19,9 +20,7 @@ type TmdbSeasonProvider(httpClientFactory: IHttpClientFactory, tmdbClientManager
 
                 let seriesTmdbId = info.SeriesProviderIds.TryGetValue(MetadataProvider.Tmdb.ToString()) |> snd
                 let seasonNumber = info.IndexNumber
-                if String.IsNullOrWhiteSpace(seriesTmdbId) || (seasonNumber.HasValue |> not) then
-                    return result
-                else
+                if String.IsNullOrWhiteSpace(seriesTmdbId) |> not && seasonNumber.HasValue then
                     let! seasonResult = 
                         tmdbClientManager.AsyncGetSeason(
                             int seriesTmdbId,
@@ -29,10 +28,8 @@ type TmdbSeasonProvider(httpClientFactory: IHttpClientFactory, tmdbClientManager
                             info.MetadataLanguage,
                             TmdbUtils.getImageLanguagesParam info.MetadataLanguage,
                             cancellationToken)
-                    
-                    if seasonResult |> isNull then 
-                        return result
-                    else
+
+                    let writeResult (result: MetadataResult<Season>) (seasonResult: TvSeason) =
                         result.HasMetadata <- true
                         result.Item <- new Season(
                             IndexNumber = seasonNumber,
@@ -45,8 +42,11 @@ type TmdbSeasonProvider(httpClientFactory: IHttpClientFactory, tmdbClientManager
                             result.Item.SetProviderId(MetadataProvider.Tvdb, tvdbId)
 
                         seasonResult |> TmdbUtils.getPersons tmdbClientManager |> Seq.iter result.AddPerson
-                        return result
+
+                    seasonResult |> Obj.iter (writeResult result)
+
+                return result
             } |> Async.StartAsTask
         member _.GetImageResponse(url, cancellationToken) =
             httpClientFactory.CreateClient(NamedClient.Default).GetAsync(url, cancellationToken)
-        
+     
