@@ -104,6 +104,8 @@ type TmdbClientManager(memoryCache: IMemoryCache) =
     member _.GetBackdropUrl(backdropPath) =
         getImageUrl tmDbClient.Config.Images.BackdropSizes.Last backdropPath
     member _.GetDiscover() = tmDbClient.DiscoverTvShowsAsync()
+    member _.GetStillUrl(filePath) =
+        getImageUrl tmDbClient.Config.Images.StillSizes.Last filePath
 
     member inline private this.GetPersonsOfCast (personType) (cast: Cast seq) =
         let toPersonInfo (actor: Cast) =
