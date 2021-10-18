@@ -20,11 +20,12 @@
     <Compile Include="Providers\Tmdb\TmdbSeasonProvider.fs" />
     <Compile Include="Providers\Tmdb\TmdbSeasonImageProvider.fs" />
     <Compile Include="Providers\Tmdb\TmdbEpisodeProvider.fs" />
+    <Compile Include="Providers\Tmdb\TmdbEpisodeImageProvider.fs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jellyfin.Controller" Version="10.*-*" />
-    <PackageReference Include="Jellyfin.Model" Version="10.*-*" />
+    <PackageReference Include="Jellyfin.Controller" Version="10.7.6" />
+    <PackageReference Include="Jellyfin.Model" Version="10.7.6" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="TMDbLib" Version="1.8.1" />
   </ItemGroup>
