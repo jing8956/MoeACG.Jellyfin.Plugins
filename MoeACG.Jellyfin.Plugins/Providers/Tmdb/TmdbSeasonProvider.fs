@@ -41,7 +41,7 @@ type TmdbSeasonProvider(httpClientFactory: IHttpClientFactory, tmdbClientManager
                         if tvdbId |> String.IsNullOrEmpty |> not then
                             result.Item.SetProviderId(MetadataProvider.Tvdb, tvdbId)
 
-                        seasonResult |> TmdbUtils.getPersons tmdbClientManager |> Seq.iter result.AddPerson
+                        seasonResult |> tmdbClientManager.GetPersons |> Seq.iter result.AddPerson
 
                     seasonResult |> Obj.iter (writeResult result)
 

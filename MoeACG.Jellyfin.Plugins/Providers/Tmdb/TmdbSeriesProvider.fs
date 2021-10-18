@@ -204,7 +204,7 @@ type TmdbSeriesProvider(httpClientFactory: IHttpClientFactory, tmdbClientManager
 
                     result.Item <- mapTvShowToSeries tvShow info.MetadataCountryCode
                     result.ResultLanguage <- info.MetadataLanguage |> Obj.defaultValue tvShow.OriginalLanguage
-                    tvShow |> TmdbUtils.getPersons tmdbClientManager |> Seq.iter result.AddPerson
+                    tvShow |> tmdbClientManager.GetPersons |> Seq.iter result.AddPerson
                     result.HasMetadata <- result.Item |> isNull |> not
 
                 return result

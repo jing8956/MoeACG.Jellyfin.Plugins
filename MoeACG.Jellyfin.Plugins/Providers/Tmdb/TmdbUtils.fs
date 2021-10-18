@@ -6,11 +6,8 @@ let [<Literal>] ApiKey = "4219e299c89411838049ab0dab19ebd5"
 let [<Literal>] MaxCastMembers = 15
 
 open System
-open System.Linq
-open MediaBrowser.Controller.Entities
 open MediaBrowser.Model.Entities
 open TMDbLib.Objects.General
-open TMDbLib.Objects.TvShows
 
 let normalizeLanguage language =
     if language |> String.IsNullOrEmpty then 
@@ -56,40 +53,3 @@ let adjustImageLanguage imageLanguage requestLanguage =
        || (requestLanguage.StartsWith(imageLanguage, StringComparison.OrdinalIgnoreCase) |> not)
     then imageLanguage
     else requestLanguage
-
-let inline getPersons (tmdbClientManager: TmdbClientManager) hasCredits =
-    let ofCasts (cast: Cast seq) =
-        let toPersonInfo (actor: Cast) =
-            let personInfo =
-                PersonInfo(
-                    Name = actor.Name.Trim(),
-                    Role = actor.Character,
-                    Type = PersonType.Actor,
-                    SortOrder = actor.Order,
-                    ImageUrl = tmdbClientManager.GetPosterUrl(actor.ProfilePath))
-            if actor.Id > 0 then personInfo.SetProviderId(MetadataProvider.Tmdb, actor.Id.ToString("D"))
-            personInfo
-        cast
-        |> Seq.sortBy (fun actor -> actor.Order) 
-        |> Seq.take MaxCastMembers
-        |> Seq.map toPersonInfo
-    let ofCrews (crews: Crew seq) =
-        let keepTypes = [| PersonType.Director; PersonType.Writer; PersonType.Producer |]
-        let isKeepType personType = keepTypes.Contains(personType, StringComparer.OrdinalIgnoreCase)
-        let toPersonInfo (r: struct {| Type: string; Crew: Crew |}) =
-            new PersonInfo(
-                Name = r.Crew.Name.Trim(),
-                Role = r.Crew.Job,
-                Type = r.Type)
-        crews
-        |> Seq.map (fun crew -> struct {| Type = mapCrewToPersonType crew; Crew = crew |})
-        |> Seq.filter (fun r -> r.Type |> isKeepType || r.Crew.Job |> isKeepType)
-        |> Seq.map toPersonInfo
-    let toPersons (credits: Credits) =
-        seq {
-            credits.Cast |> Obj.map ofCasts
-            credits.Crew |> Obj.map ofCrews
-        } |> Seq.map (Obj.defaultValue Seq.empty) |> Seq.concat
-    (^T: (member Credits: Credits) hasCredits)
-    |> Obj.map toPersons
-            

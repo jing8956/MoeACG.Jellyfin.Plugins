@@ -1,17 +1,13 @@
 namespace MoeACG.Jellyfin.Plugin.Providers.Tmdb
 
 open System
-open System.Collections.Generic
-open System.Globalization
-open System.Threading
 open System.Linq
 open Microsoft.Extensions.Caching.Memory
 open TMDbLib.Client
-open TMDbLib.Objects.Find
 open TMDbLib.Objects.General
-open TMDbLib.Objects.Search
 open TMDbLib.Objects.TvShows
-open System.Threading.Tasks
+open MediaBrowser.Controller.Entities
+open MediaBrowser.Model.Entities
 
 type TmdbClientManager(memoryCache: IMemoryCache) = 
     let [<Literal>] CacheDurationInHours = 1.0
@@ -93,6 +89,41 @@ type TmdbClientManager(memoryCache: IMemoryCache) =
     member _.GetBackdropUrl(backdropPath) =
         getImageUrl tmDbClient.Config.Images.BackdropSizes.Last backdropPath
     member _.GetDiscover() = tmDbClient.DiscoverTvShowsAsync()
+    member inline this.GetPersons(hasCredits) = 
+        let ofCasts (cast: Cast seq) =
+            let toPersonInfo (actor: Cast) =
+                let personInfo =
+                    PersonInfo(
+                        Name = actor.Name.Trim(),
+                        Role = actor.Character,
+                        Type = PersonType.Actor,
+                        SortOrder = actor.Order,
+                        ImageUrl = this.GetPosterUrl(actor.ProfilePath))
+                if actor.Id > 0 then personInfo.SetProviderId(MetadataProvider.Tmdb, actor.Id.ToString("D"))
+                personInfo
+            cast
+            |> Seq.sortBy (fun actor -> actor.Order) 
+            |> Seq.take TmdbUtils.MaxCastMembers
+            |> Seq.map toPersonInfo
+        let ofCrews (crews: Crew seq) =
+            let keepTypes = [| PersonType.Director; PersonType.Writer; PersonType.Producer |]
+            let isKeepType personType = keepTypes.Contains(personType, StringComparer.OrdinalIgnoreCase)
+            let toPersonInfo (r: struct {| Type: string; Crew: Crew |}) =
+                new PersonInfo(
+                    Name = r.Crew.Name.Trim(),
+                    Role = r.Crew.Job,
+                    Type = r.Type)
+            crews
+            |> Seq.map (fun crew -> struct {| Type = TmdbUtils.mapCrewToPersonType crew; Crew = crew |})
+            |> Seq.filter (fun r -> r.Type |> isKeepType || r.Crew.Job |> isKeepType)
+            |> Seq.map toPersonInfo
+        let toPersons (credits: Credits) =
+            seq {
+                credits.Cast |> Obj.map ofCasts
+                credits.Crew |> Obj.map ofCrews
+            } |> Seq.map (Obj.defaultValue Seq.empty) |> Seq.concat
+        (^T: (member Credits: Credits) hasCredits)
+        |> Obj.map toPersons
 
     interface IDisposable with 
         member _.Dispose() =

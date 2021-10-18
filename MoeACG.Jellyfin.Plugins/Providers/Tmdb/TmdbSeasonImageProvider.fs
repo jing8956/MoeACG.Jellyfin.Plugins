@@ -1,6 +1,5 @@
 namespace MoeACG.Jellyfin.Plugin.Providers.Tmdb
 
-open System
 open System.Net.Http
 open MediaBrowser.Common.Net
 open MediaBrowser.Controller.Entities.TV
@@ -12,7 +11,7 @@ open TMDbLib.Objects.General
 open MediaBrowser.Model.Dto
 
 type TmdbSeasonImageProvider(httpClientFactory: IHttpClientFactory, tmdbClientManager: TmdbClientManager) =
-    interface IHasOrder with member _.Order = 2
+    interface IHasOrder with member _.Order = 1
     interface IRemoteImageProvider with
         member _.Name = TmdbUtils.ProviderName
         member _.Supports(item) = item :? Season
