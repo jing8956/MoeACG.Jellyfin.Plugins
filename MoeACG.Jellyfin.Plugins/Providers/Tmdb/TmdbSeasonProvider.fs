@@ -49,4 +49,3 @@ type TmdbSeasonProvider(httpClientFactory: IHttpClientFactory, tmdbClientManager
             } |> Async.StartAsTask
         member _.GetImageResponse(url, cancellationToken) =
             httpClientFactory.CreateClient(NamedClient.Default).GetAsync(url, cancellationToken)
-     

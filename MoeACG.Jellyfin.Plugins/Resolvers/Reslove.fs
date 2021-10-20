@@ -234,5 +234,3 @@ let resolveEpisode logger args =
         sb.Append($"SeasonNumber: {episode.ParentIndexNumber}") |> ignore
         sb.ToString()
     args |> resloveBase validator bindEpisode logger episodeToString
-    
-

@@ -27,5 +27,3 @@ type Plugin(paths, serializer) as this =
                    EmbeddedResourcePath = $"{this.GetType().Namespace}.Configuration.configPage.html"
                ))
             }
-
-

@@ -5,6 +5,11 @@ VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "MoeACG.Jellyfin.Plugins", "MoeACG.Jellyfin.Plugins\MoeACG.Jellyfin.Plugins.fsproj", "{5812C745-0FD1-4AC9-B363-9C3E4BDC2680}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8B632C79-3311-4D88-9B72-972A3982DC9D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

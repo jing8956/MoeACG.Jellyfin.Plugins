@@ -1,0 +1,16 @@
+# Rules in this file were initially inferred by Visual Studio IntelliCode from the C:\Users\jing8956\Source\Repos\jing8956\MoeACG.Jellyfin.Plugins codebase based on best match to current usage at 2021/10/20
+# You can modify the rules from these initially generated values to suit your own policies
+# You can learn more about editorconfig here: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
+root = true
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+
+[*.fsproj]
+indent_style = space
+indent_size = 2
+insert_final_newline = false
+
+[*.{json,html}]
+insert_final_newline = false
