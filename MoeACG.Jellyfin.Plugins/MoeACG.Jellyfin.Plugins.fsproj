@@ -2,9 +2,28 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <FSharpCoreTargetFramework>netstandard2.0</FSharpCoreTargetFramework>
+    <OutDir Condition="'$(Configuration)'=='Debug'">$(LocalAppData)\jellyfin\plugins\MoeACG.Jellyfin.Plugins</OutDir>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+    <None Include="$(PkgFSharp_Core)\lib\$(FSharpCoreTargetFramework)\zh-Hans\FSharp.Core.resources.dll">
+      <Link>zh-Hans\FSharp.Core.resources.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </None>
+    <None Include="$(PkgFSharp_Core)\lib\$(FSharpCoreTargetFramework)\FSharp.Core.dll">
+      <Link>FSharp.Core.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </None>
+    <Folder Update="zh-Hans">
+      <Visible>False</Visible>
+    </Folder>	
+  </ItemGroup>
+    
   <ItemGroup>
+    <Content Include="Properties\launchSettings.json" />
     <Compile Include="Nullable.fs" />
     <Compile Include="Obj.fs" />
     <EmbeddedResource Include="Configuration\configPage.html" />
@@ -21,17 +40,17 @@
     <Compile Include="Providers\Tmdb\TmdbSeasonImageProvider.fs" />
     <Compile Include="Providers\Tmdb\TmdbEpisodeProvider.fs" />
     <Compile Include="Providers\Tmdb\TmdbEpisodeImageProvider.fs" />
+    <Compile Include="PluginServiceRegistrator.fs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="5.0.2" GeneratePathProperty="true" />
     <PackageReference Include="Jellyfin.Controller" Version="10.7.6" />
     <PackageReference Include="Jellyfin.Model" Version="10.7.6" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="TMDbLib" Version="1.8.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="5.0.2" />
-  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
