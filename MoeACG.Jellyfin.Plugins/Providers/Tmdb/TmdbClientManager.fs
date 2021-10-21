@@ -120,7 +120,7 @@ type TmdbClientManager(memoryCache: IMemoryCache) =
             personInfo
         cast
         |> Seq.sortBy (fun actor -> actor.Order) 
-        |> Seq.take TmdbUtils.MaxCastMembers
+        |> Seq.truncate TmdbUtils.MaxCastMembers
         |> Seq.map toPersonInfo
     member inline private _.GetPersonsOfCrew(crews: Crew seq) =
         let keepTypes = [| PersonType.Director; PersonType.Writer; PersonType.Producer |]
