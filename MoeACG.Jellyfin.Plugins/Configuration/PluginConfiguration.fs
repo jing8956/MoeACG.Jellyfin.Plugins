@@ -3,16 +3,12 @@ namespace MoeACG.Jellyfin.Plugin.Configuration
 open System.Text.RegularExpressions
 open MediaBrowser.Model.Plugins
 
-type SomeOptions =
-    | OneOption = 0
-    | AnotherOption = 1
-
 type PluginConfiguration() =
     inherit BasePluginConfiguration()
     let mutable regexOptions = RegexOptions.IgnoreCase ||| RegexOptions.Compiled
     let createRegexBase = Seq.map (fun pattern -> new Regex(pattern, regexOptions)) >> Array.ofSeq
     let mutable seriesPatterns = 
-        [| 
+        [|
             @"(?<seriesname>.*?) [全最].季.*"
             @"(?:\[Nekomoe kissaten])\[(?<seriesname>.*?) S(?<seasonnumber>[1-9])].*|(?:【[^】]*】)? ?(?:巴哈 )? ?(?<seriesname>.*?) ?(?:第(?<seasonnumber>[一二三四五六七八九十1-9])季[ ]?|(?<=[ \-\p{IsCJKUnifiedIdeographs}]|^)(?<seasonnumber>[1-9])$|(?<seasonnumber>[Ⅰ-Ⅹ]))?(?:(?<specialSeason>SPs?|OAD|OVA|剧场版|\[特[别別]篇]|Extras)|第(?<seasonnumber>一)季1998|\[[^\]]*].*|[TM]V|(?:1080|720)P|$)" 
             @"(?:【[^】]*】)? ?(?:巴哈 )? ?(?<seriesname>.*?) ?(?:[第全最].季.*|\[[^\]]*].*|(?<=[ \p{IsCJKUnifiedIdeographs}])[1-9]$|SP.*|[Ⅰ-Ⅹ]|OAD|$)" 
@@ -36,11 +32,6 @@ type PluginConfiguration() =
     let mutable episodeRegexs = episodePatterns |> createRegexBase
 
     member _.Version = typeof<PluginConfiguration>.Assembly.GetName().Version.ToString()
-    // store configurable settings your plugin might need
-    // member val TrueFalseSetting = true                      with get, set
-    // member val AnInteger        = 2                         with get, set
-    // member val AString          = "string"                  with get, set
-    // member val Options          = SomeOptions.AnotherOption with get, set
 
     member _.RegexOptions with get() = regexOptions and set v = regexOptions <- v
 
