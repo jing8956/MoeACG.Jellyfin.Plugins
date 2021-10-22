@@ -29,9 +29,10 @@
     <EmbeddedResource Include="Configuration\configPage.html" />
     <Compile Include="Configuration\PluginConfiguration.fs" />
     <Compile Include="Plugin.fs" />
-    <Compile Include="Resolvers\Reslove.fsi" />
-    <Compile Include="Resolvers\Reslove.fs" />
-    <Compile Include="Resolvers\Reslovers.fs" />
+    <Compile Include="ResolverIgnoreAllRule.fs" />
+    <None Include="Resolvers\Reslove.fsi" />
+    <None Include="Resolvers\Reslove.fs" />
+    <None Include="Resolvers\Reslovers.fs" />
     <Compile Include="Providers\Tmdb\TmdbUtils.fs" />
     <Compile Include="Providers\Tmdb\TmdbClientManager.fs" />
     <Compile Include="Providers\Tmdb\TmdbSeriesProvider.fs" />

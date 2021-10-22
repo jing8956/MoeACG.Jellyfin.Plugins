@@ -9,7 +9,7 @@
         <div data-role="content">
             <div class="content-primary">
                 <form id="MoeACGConfigForm">
-                    <p>MoeACG.Jellyfin.Plugin V<span id="version"></span></p>
+                    <p>MoeACG.Jellyfin.Plugins v<span id="version"></span></p>
                     <div>
                         <p>正则表达式选项：<span id="regexOptions"></span></p>
                         <label>正则表达式命名组名称：</label>
@@ -87,17 +87,17 @@
                     Dashboard.showLoadingMsg();
                     ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
                         document.querySelector('#version').textContent = config.Version;
-                        document.querySelector('#regexOptions').textContent = config.RegexOptions;
+                        // document.querySelector('#regexOptions').textContent = config.RegexOptions;
 
-                        document.querySelector('#seriesName').textContent = config.SeriesNameGroupName;
-                        document.querySelector('#seasonNumber').textContent = config.SeasonNumberGroupName;
-                        document.querySelector('#episodeNumber').textContent = config.EpisodeNumberGroupName;
-                        document.querySelector('#specialSeason').textContent = config.SpecialSeasonGroupName;
-                        document.querySelector('#episodeName').textContent = config.EpisodeNameGroupName;
+                        // document.querySelector('#seriesName').textContent = config.SeriesNameGroupName;
+                        // document.querySelector('#seasonNumber').textContent = config.SeasonNumberGroupName;
+                        // document.querySelector('#episodeNumber').textContent = config.EpisodeNumberGroupName;
+                        // document.querySelector('#specialSeason').textContent = config.SpecialSeasonGroupName;
+                        // document.querySelector('#episodeName').textContent = config.EpisodeNameGroupName;
 
-                        document.querySelector('#seriesPatterns').value = config.SeriesPatterns.join("\n");
-                        document.querySelector('#seasonPatterns').value = config.SeasonPatterns.join("\n");
-                        document.querySelector('#episodePatterns').value = config.EpisodePatterns.join("\n");
+                        // document.querySelector('#seriesPatterns').value = config.SeriesPatterns.join("\n");
+                        // document.querySelector('#seasonPatterns').value = config.SeasonPatterns.join("\n");
+                        // document.querySelector('#episodePatterns').value = config.EpisodePatterns.join("\n");
                         document.querySelector('#videoExtensions').value = config.VideoExtensions.join("\n");
 
                         // document.querySelector('#Options').value = config.Options;
@@ -112,10 +112,10 @@
                 .addEventListener('submit', function () {
                     Dashboard.showLoadingMsg();
                     ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
-                        console.log(document.querySelector('#seriesPatterns').value);
-                        config.SeriesPatterns = document.querySelector('#seriesPatterns').value.split('\n');
-                        config.SeasonPatterns = document.querySelector('#seasonPatterns').value.split('\n');
-                        config.EpisodePatterns = document.querySelector('#episodePatterns').value.split('\n');
+                        // console.log(document.querySelector('#seriesPatterns').value);
+                        // config.SeriesPatterns = document.querySelector('#seriesPatterns').value.split('\n');
+                        // config.SeasonPatterns = document.querySelector('#seasonPatterns').value.split('\n');
+                        // config.EpisodePatterns = document.querySelector('#episodePatterns').value.split('\n');
                         config.VideoExtensions = document.querySelector('#videoExtensions').value.split('\n');
                         // config.Options = document.querySelector('#Options').value;
                         // config.AnInteger = document.querySelector('#AnInteger').value;

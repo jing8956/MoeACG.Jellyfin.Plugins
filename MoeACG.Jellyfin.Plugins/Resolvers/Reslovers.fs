@@ -1,4 +1,4 @@
-namespace MoeACG.Jellyfin.Plugin.Resolvers
+namespace MoeACG.Jellyfin.Plugins.Resolvers
 
 open Microsoft.Extensions.Logging
 open MediaBrowser.Controller.Entities

@@ -1,8 +1,8 @@
-namespace MoeACG.Jellyfin.Plugin
+namespace MoeACG.Jellyfin.Plugins
 
 open MediaBrowser.Common.Plugins
 open Microsoft.Extensions.DependencyInjection
-open MoeACG.Jellyfin.Plugin.Providers.Tmdb
+open MoeACG.Jellyfin.Plugins.Providers.Tmdb
 
 type PluginServiceRegistrator() =
     interface IPluginServiceRegistrator with

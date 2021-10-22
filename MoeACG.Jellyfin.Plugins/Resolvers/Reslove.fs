@@ -1,4 +1,4 @@
-module MoeACG.Jellyfin.Plugin.Resolvers.Reslove
+module MoeACG.Jellyfin.Plugins.Resolvers.Reslove
 
 open System
 open System.IO

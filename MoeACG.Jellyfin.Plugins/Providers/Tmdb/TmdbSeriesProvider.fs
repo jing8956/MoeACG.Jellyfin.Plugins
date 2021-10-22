@@ -1,4 +1,4 @@
-namespace MoeACG.Jellyfin.Plugin.Providers.Tmdb
+namespace MoeACG.Jellyfin.Plugins.Providers.Tmdb
 
 open System
 open System.Net.Http
