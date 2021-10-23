@@ -7,5 +7,6 @@ open Microsoft.VisualStudio.TestTools.UnitTesting
 type TestClass () =
 
     [<TestMethod>]
-    member this.TestMethodPassing () =
+    [<DataRow("data\\Tv.yaml")>]
+    member this.ResolveTest(filePath: string) =
         Assert.IsTrue(true);
