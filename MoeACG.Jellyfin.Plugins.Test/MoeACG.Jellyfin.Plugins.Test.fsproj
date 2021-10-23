@@ -8,12 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\data\TV.all.yaml">
-      <Link>data\TV.all.yaml</Link>
+    <None Include="data\TV.all.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\data\TV.yaml">
-      <Link>data\TV.yaml</Link>
+    <None Include="data\TV.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Tests.fs" />
@@ -31,5 +29,5 @@
     </PackageReference>
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
-  
+
 </Project>
