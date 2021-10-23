@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <FSharpCoreTargetFramework>netstandard2.0</FSharpCoreTargetFramework>
+    <FSharpCoreTargetFramework>netstandard2.1</FSharpCoreTargetFramework>
     <OutDir Condition="'$(Configuration)'=='Debug'">$(LocalAppData)\jellyfin\plugins\MoeACG.Jellyfin.Plugins</OutDir>
   </PropertyGroup>
 
@@ -45,7 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="5.0.2" GeneratePathProperty="true" />
+    <PackageReference Update="FSharp.Core" Version="6.0.0" GeneratePathProperty="true" />
     <PackageReference Include="Jellyfin.Controller" Version="10.7.6" />
     <PackageReference Include="Jellyfin.Model" Version="10.7.6" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
