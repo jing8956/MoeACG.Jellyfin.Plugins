@@ -14,6 +14,9 @@
     <None Include="data\TV.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="data\Tv.expected.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
@@ -30,4 +33,8 @@
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MoeACG.Jellyfin.Plugins\MoeACG.Jellyfin.Plugins.fsproj" />
+  </ItemGroup>
+  
 </Project>
