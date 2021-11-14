@@ -29,7 +29,7 @@
     <EmbeddedResource Include="Configuration\configPage.html" />
     <Compile Include="Configuration\PluginConfiguration.fs" />
     <Compile Include="Plugin.fs" />
-    <Compile Include="ResolverIgnoreAllRule.fs" />
+    <Compile Include="ResolverIgnoreRule.fs" />
     <Compile Include="VideoScrape.fs" />
     <None Include="Resolvers\Reslove.fsi" />
     <None Include="Resolvers\Reslove.fs" />

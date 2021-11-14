@@ -5,12 +5,13 @@ open System.IO
 open System.Text
 open Microsoft.VisualStudio.TestTools.UnitTesting
 open MoeACG.Jellyfin.Plugins.VideoScrape
+open System.Net.Http
 
 type IMap<'Key, 'Value> = 
     System.Collections.Generic.IReadOnlyDictionary<'Key, 'Value>
 
 [<TestClass>]
-type TestClass () =
+type TestClass() =
     
     let serializer = new YamlDotNet.Serialization.Serializer()
     let deserializer = new YamlDotNet.Serialization.Deserializer()
@@ -38,15 +39,16 @@ type TestClass () =
                 | :? string as file ->
                     { c with Files = c.Files @ [ file ] }
                 | _ -> 
-                    $"<{i.GetType()}> is not <{typeof<IMap<obj, obj>>}> or <{typeof<string>}>." 
-                    |> Assert.Fail
+                    Assert.Fail $"<{i.GetType()}> is not <{typeof<IMap<obj, obj>>}> or <{typeof<string>}>." 
                     empty
             ) empty
         
-    let scrape = toContent >> scrape
+    let scrape obj = 
+        use client = new HttpClient()
+        obj |> toContent |> scrape client
 
     [<TestMethod>]
-    [<DataRow("data\\Tv.yaml", "data\\Tv.expected.yaml", DisplayName = "Tv.yaml")>]
+    [<DataRow("data\\Tv.all.yaml", "data\\Tv.expected.yaml", DisplayName = "Tv.yaml")>]
     member _.ScrapeTest(data: string, expected: string) =
         let readData = File.ReadAllText >> ofYaml
         let testData = readData data
@@ -54,9 +56,12 @@ type TestClass () =
 
         Assert.IsInstanceOfType(testData, typeof<obj seq>)
         let result = testData :?> obj seq |> scrape
-        let validMap = Map.empty<string, string>
 
         // TODO: 断言刮削结果是否相同
+        let validMap = 
+            result 
+            |> List.fold (fun map s -> map |> Map.add s.Name s.FloderStack.Head.FloderType) Map.empty
+            |> Map.filter (fun k v -> v <> FloderType.AniGamer && v <> FloderType.BiliBili)
 
         if validMap.Count > 0 then
             let errorYaml = validMap |> toYaml
