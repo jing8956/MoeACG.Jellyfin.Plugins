@@ -12,7 +12,7 @@ open MediaBrowser.Model.Providers
 open TMDbLib.Objects.General
 open TMDbLib.Objects.TvShows
 
-type TmdbEpisodeProvider(httpClientFactory: IHttpClientFactory, tmdbClientManager: TmdbClientManager) =
+type TmdbEpisodeProvider(httpClientFactory: IHttpClientFactory) =
     interface IHasOrder with member _.Order = 1
     interface IRemoteMetadataProvider<Episode, ItemLookupInfo> with
         member _.Name = TmdbUtils.ProviderName

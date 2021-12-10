@@ -29,11 +29,9 @@
     <EmbeddedResource Include="Configuration\configPage.html" />
     <Compile Include="Configuration\PluginConfiguration.fs" />
     <Compile Include="Plugin.fs" />
+    <Compile Include="Reslover.fs" />
     <Compile Include="ResolverIgnoreRule.fs" />
     <Compile Include="VideoScrape.fs" />
-    <None Include="Resolvers\Reslove.fsi" />
-    <None Include="Resolvers\Reslove.fs" />
-    <None Include="Resolvers\Reslovers.fs" />
     <Compile Include="Providers\Tmdb\TmdbUtils.fs" />
     <Compile Include="Providers\Tmdb\TmdbClientManager.fs" />
     <Compile Include="Providers\Tmdb\TmdbSeriesProvider.fs" />

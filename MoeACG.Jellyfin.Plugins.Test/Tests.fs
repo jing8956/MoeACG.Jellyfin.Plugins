@@ -61,7 +61,6 @@ type TestClass() =
         let validMap = 
             result 
             |> List.fold (fun map s -> map |> Map.add s.Name s.FloderStack.Head.FloderType) Map.empty
-            |> Map.filter (fun k v -> v <> FloderType.AniGamer && v <> FloderType.BiliBili)
 
         if validMap.Count > 0 then
             let errorYaml = validMap |> toYaml

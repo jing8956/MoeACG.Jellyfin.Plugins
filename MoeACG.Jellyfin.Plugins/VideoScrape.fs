@@ -77,21 +77,18 @@ module FloderStack =
 
 [<Struct>]
 type FloderType =
-/// 空文件夹。
-| Empty = -1
 /// 未知。
 | UnKnown = 0
-/// 动画疯，季名会在标点符号（例如 '：'）前携带特殊符号 '‛'。
+/// 動畫瘋，季名会在标点符号（例如 '：'）前携带特殊符号 '‛'。
 /// 季名( [Tag])?\【動畫瘋】季名( [Tag])?[集号|"電影"][清晰度].mp4
-| AniGamer = 1
+| 動畫瘋 = 1
 /// Nekomoe kissaten 字幕组，双层并带坑的结构。
 /// 季名\[Nekomoe kissaten][季全名][数字][1080p][JPSC].mp4
-/// 坑：单独把 D_CIDE TRAUMEREI 第 13 集放进了专门的文件夹里，需要设计手动处理。
-/// 坑：最后一集会发布合集。导致里面还有一个合集文件夹又把所有剧集复制了一份。
-| NekomoeKissaten = 3
+/// 坑：最后一集会发布合集。导致里面还有一个合集文件夹又把所有剧集复制了一份，忽略这个合集。
+| ``Nekomoe kissaten`` = 3
 /// UHA-WINGS 字幕组，双层结构。
 /// 不要欺负我，长瀞同学\[UHA-WINGS] Ijiranaide Nagatoro-san - 01 [x264 1080p][CHS].mp4
-| UHA_WINGS = 4
+| ``UHA-WINGS`` = 4
 /// Airota 字幕组，双层结构。
 /// 小林家的女仆龙S\[Airota][Kobayashi-san Chi no Maid Dragon S2][01][1080p AVC AAC][CHS].mp4
 | Airota = 6
@@ -103,13 +100,12 @@ type Floder with
             match content.Files with
             | file :: _ -> 
                 if file.StartsWith("【動畫瘋】") then
-                    FloderType.AniGamer
+                    FloderType.動畫瘋
                 else if Regex.IsMatch(file, "^\d+\.mp4$") then
                     FloderType.UnKnown
                 else FloderType.UnKnown
-            | [] -> FloderType.Empty
-        else 
-           FloderType.UnKnown
+            | [] -> FloderType.UnKnown
+        else FloderType.UnKnown
 
 let scrape (httpClient: HttpClient) (content: FloderContent) : Series list = 
     content.Floders

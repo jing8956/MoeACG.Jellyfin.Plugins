@@ -6,5 +6,5 @@ open MoeACG.Jellyfin.Plugins.Providers.Tmdb
 
 type PluginServiceRegistrator() =
     interface IPluginServiceRegistrator with
-        member _.RegisterServices(serviceCollection) = 
-            serviceCollection.AddSingleton<TmdbClientManager>() |> ignore
+        member _.RegisterServices(serviceCollection) = ()
+            // serviceCollection.AddSingleton<TmdbClientManager>() |> ignore

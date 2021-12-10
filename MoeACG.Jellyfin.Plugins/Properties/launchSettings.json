@@ -3,8 +3,9 @@
     "MoeACG.Jellyfin.Plugins": {
       "commandName": "Executable",
       "executablePath": "%UserProfile%\\source\\repos\\jing8956\\jellyfin\\Jellyfin.Server\\bin\\Release\\net5.0\\jellyfin.exe",
-      "commandLineArgs": "-w ../Mediabrowser.WebDashboard/jellyfin-web",
+      "commandLineArgs": "-w ..\\Mediabrowser.WebDashboard\\jellyfin-web",
       "workingDirectory": "%UserProfile%\\source\\repos\\jing8956\\jellyfin\\Jellyfin.Server",
+      "applicationUrl": "http://localhost:8096",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
