@@ -29,17 +29,17 @@
     <EmbeddedResource Include="Configuration\configPage.html" />
     <Compile Include="Configuration\PluginConfiguration.fs" />
     <Compile Include="Plugin.fs" />
-    <Compile Include="Reslover.fs" />
+    <Compile Include="MoeACGResolver.fs" />
     <Compile Include="ResolverIgnoreRule.fs" />
     <Compile Include="VideoScrape.fs" />
     <Compile Include="Providers\Tmdb\TmdbUtils.fs" />
     <Compile Include="Providers\Tmdb\TmdbClientManager.fs" />
-    <Compile Include="Providers\Tmdb\TmdbSeriesProvider.fs" />
-    <Compile Include="Providers\Tmdb\TmdbSeriesImageProvider.fs" />
-    <Compile Include="Providers\Tmdb\TmdbSeasonProvider.fs" />
-    <Compile Include="Providers\Tmdb\TmdbSeasonImageProvider.fs" />
-    <Compile Include="Providers\Tmdb\TmdbEpisodeProvider.fs" />
-    <Compile Include="Providers\Tmdb\TmdbEpisodeImageProvider.fs" />
+    <Compile Include="Providers\Tmdb\MoeACGSeriesProvider.fs" />
+    <Compile Include="Providers\Tmdb\MoeACGSeriesImageProvider.fs" />
+    <Compile Include="Providers\Tmdb\MoeACGSeasonProvider.fs" />
+    <Compile Include="Providers\Tmdb\MoeACGSeasonImageProvider.fs" />
+    <Compile Include="Providers\Tmdb\MoeACGEpisodeProvider.fs" />
+    <Compile Include="Providers\Tmdb\MoeACGEpisodeImageProvider.fs" />
     <Compile Include="PluginServiceRegistrator.fs" />
   </ItemGroup>
 
