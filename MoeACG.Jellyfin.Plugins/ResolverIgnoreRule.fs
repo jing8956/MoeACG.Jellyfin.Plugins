@@ -18,7 +18,7 @@ type ResolverIgnoreRule() =
                 else if fileInfo.Name |> MoeACGResolver.CanResolve |> not then true
                 else false
             | :? AggregateFolder -> false
-            | :? UserRootFolder -> true
+            | :? UserRootFolder -> false
             | :? Folder ->
                 let isMp4 (path:string) = Path.GetExtension(path) = ".mp4"
                 if fileInfo.IsDirectory |> not then true

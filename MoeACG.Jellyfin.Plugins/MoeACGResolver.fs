@@ -27,38 +27,61 @@ type EpisodeType =
 | Airota
 /// SSSS.DYNAZENON\[KTXP][SSSS.Dynazenon][01][GB][1080p].mp4
 | KTXP
+/// [UHA-WINGS] Ijiranaide Nagatoro-san - 01 [x264 1080p][CHS].mp4
+| ``UHA-WINGS``
 
 type MoeACGResolver(logger: ILogger<MoeACGResolver>) =
     
-    static let toRegex p = new Regex(p, RegexOptions.Compiled ||| RegexOptions.ExplicitCapture)
+    static let [<Literal>] regexOptions = RegexOptions.Compiled ||| RegexOptions.ExplicitCapture
+    static let toRegex p = new Regex(p, regexOptions)
+    static let toRegexArray = Seq.map toRegex >> Seq.toArray
 
-    static let regexs =
+    static let canResolveRegexs =
         seq {
-            (動畫瘋, "^【動畫瘋】.+(?<!\[特別篇])\[\d+]")
-        } |> Map.ofSeq |> Map.map (fun _ -> toRegex)
+            "^【動畫瘋】.+(?<!\[特別篇])\[\d+]"
+            "^\[Nekomoe kissaten]\[.+]\[\d+]"
+            "^\[Airota]\[.+]\[\d+]"
+            "^\[KTXP]\[.+]\[\d+]"
+            "^\[UHA-WINGS] .+ - \d+"
+            "^\d+\[baha]"
+        } |> toRegexArray
 
     static let epRegexs =
         seq {
-            "^【動畫瘋】(?<n>.+)\[(?<i>\d+)]\[(?<r>\w+)]"
+            "^【(?<baha>動畫瘋)】(?<n>.+?) ?(第(?<s>.)季)?\[(?<i>\d+)]"
+            "^\[Nekomoe kissaten]\[(?<n>.+)]\[(?<i>\d+)]"
+            "^\[Airota]\[(?<n>.+)]\[(?<i>\d+)]"
+            "^\[KTXP]\[(?<n>.+)]\[(?<i>\d+)]"
+            "^\[UHA-WINGS] (?<n>.+) - (?<i>\d+)"
+            "^(?<i>\d+)\[baha]"
         } |> Seq.map toRegex |> Seq.toArray
 
-    static member GetEpisodeType (fileName: string) =
-        regexs
-        |> Map.tryFindKey (fun _ r -> r.IsMatch(fileName))
-        |> Option.defaultValue Unknown
+    static let isBaha fileName = Regex.IsMatch(fileName, "^【動畫瘋】", regexOptions)
+
     static member CanResolve fileName =
-        fileName
-        |> MoeACGResolver.GetEpisodeType
-        |> function | Unknown -> false | _ -> true
+        canResolveRegexs
+        |> Seq.exists (fun r -> r.IsMatch(fileName)) 
 
     interface IItemResolver with
         member _.Priority = ResolverPriority.First
         member _.ResolvePath args =
-            if args.Parent.IsRoot |> not then
+            if (args.Parent :? AggregateFolder || args.Parent :? UserRootFolder) |> not then
                 if args.IsDirectory then
                     if args.ContainsFileSystemEntryByName("tvshow.nfo") |> not then
                         let result = Series(Path = args.Path)
-                        result.Name <- args.FileInfo.Name
+                        let name =
+                            let name = args.FileInfo.Name
+                            let hasBaha = 
+                                args.FileSystemChildren 
+                                |> Seq.filter (fun f -> f.IsDirectory |> not)
+                                |> Seq.exists (fun f -> f.Name |> isBaha)
+                            if hasBaha then
+                                let name = 
+                                    Regex.Match(name, ".+(?= 巴哈|第\w季)", regexOptions)
+                                    |> fun m -> if m.Success then m.Value else name
+                                name.Replace("‛", "")
+                            else name
+                        result.Name <- name
                         result.IsRoot <- args.Parent |> isNull
                         upcast result
                     else null
@@ -68,9 +91,25 @@ type MoeACGResolver(logger: ILogger<MoeACGResolver>) =
                         let group = m.Groups.[name]
                         if group.Success then ValueSome group.Value else ValueNone
                     let setResult m =
-                        m |> tryGetValue "n" |> ValueOption.iter (fun n -> result.Name <- n)
-                        m |> tryGetValue "i" |> ValueOption.map int |> ValueOption.iter (fun i -> result.IndexNumber <- i)
-                        m |> tryGetValue "r" |> ValueOption.iter (result.AddTag)
+                        // 名称
+                        tryGetValue "n" m
+                        |> ValueOption.map (fun n -> if m.Groups.ContainsKey("baha") then n.Replace("‛", "") else n)
+                        |> ValueOption.iter (fun n -> result.Name <- n)
+                        
+                        // 集数
+                        tryGetValue "i" m
+                        |> ValueOption.map int
+                        |> ValueOption.iter (fun i -> result.IndexNumber <- i)
+
+                        let numberZhHansTable = "一二三四五六七八九十"
+                        let tryCastNumber (s:string) = 
+                            numberZhHansTable.IndexOf(s)
+                            |> function | -1 -> ValueNone | i -> ValueSome(i + 1)
+
+                        // 季数
+                        tryGetValue "s" m
+                        |> ValueOption.bind tryCastNumber
+                        |> ValueOption.iter (fun i -> result.ParentIndexNumber <- i)
                     epRegexs
                     |> Seq.map (fun r -> r.Match(args.FileInfo.Name))
                     |> Seq.tryFind (fun m -> m.Success)

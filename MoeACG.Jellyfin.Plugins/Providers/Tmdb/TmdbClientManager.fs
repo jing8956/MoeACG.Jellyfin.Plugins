@@ -8,8 +8,21 @@ open TMDbLib.Objects.General
 open TMDbLib.Objects.TvShows
 open MediaBrowser.Controller.Entities
 open MediaBrowser.Model.Entities
+open System.Net.Http
+open System.Net.Http.Json
 
-type TmdbClientManager(memoryCache: IMemoryCache) = 
+[<AllowNullLiteral>]
+type AlternativeTitle(iso_3166_1: string, title: string, ``type``: string) =
+    member _.Iso_3166_1 = iso_3166_1
+    member _.Title = title
+    member _.Type = ``type``
+
+[<AllowNullLiteral>]
+type AlternativeTitles(id: int, results: AlternativeTitle[]) =
+    member _.Id = id
+    member _.Results = results
+
+type TmdbClientManager(client: HttpClient, memoryCache: IMemoryCache) = 
     let [<Literal>] CacheDurationInHours = 1.0
     let tmDbClient = new TMDbClient(TmdbUtils.ApiKey)
     // Not really interested in NotFoundException
@@ -20,20 +33,19 @@ type TmdbClientManager(memoryCache: IMemoryCache) =
             if not tmDbClient.HasConfig then
                 do! tmDbClient.GetConfigAsync() |> Async.AwaitTask |> Async.Ignore
         }
-    let asyncGetOrRequest key factory = 
+    let asyncGetOrRequestCore key factory =
         async {
             let mutable value = Unchecked.defaultof<'T>
             if memoryCache.TryGetValue<'T>(key, &value) then return value
             else
                 do! asyncEnsureClientConfig
-                let! value = tmDbClient |> factory |> Async.AwaitTask
+                let! value = factory() |> Async.AwaitTask
                 if value |> isNull |> not then 
                     memoryCache.Set(key, value, TimeSpan.FromHours(CacheDurationInHours)) |> ignore
                 return value
         }
-    let getImageUrl sizeThunk path = 
-        if path |> String.IsNullOrEmpty then null
-        else tmDbClient.GetImageUrl(sizeThunk(), path).ToString()
+    let asyncGetOrRequest key factory = 
+        asyncGetOrRequestCore key (fun() -> tmDbClient |> factory)
 
     member _.AsyncSearchSeries(name, language, year, cancellationToken) =
         asyncGetOrRequest $"searchseries-{name}-{language}"
@@ -53,102 +65,12 @@ type TmdbClientManager(memoryCache: IMemoryCache) =
                    language = TmdbUtils.normalizeLanguage language,
                    cancellationToken = cancellationToken)
 
-    member _.AsyncGetSeries(tmdbId, language, imageLanguages, cancellationToken) =
-        asyncGetOrRequest $"series-{tmdbId}-{language}"
-        <| fun client -> 
-               client.GetTvShowAsync(
-                   id = tmdbId,
-                   language = TmdbUtils.normalizeLanguage language,
-                   includeImageLanguage = imageLanguages,
-                   extraMethods = (
-                       TvShowMethods.Credits |||
-                       TvShowMethods.Images |||
-                       TvShowMethods.ExternalIds |||
-                       TvShowMethods.ContentRatings |||
-                       TvShowMethods.Keywords |||
-                       TvShowMethods.Videos |||
-                       TvShowMethods.EpisodeGroups),
-                   cancellationToken = cancellationToken)
-    member _.AsyncGetSeason(tvShowId, seasonNumber, language, imageLanguages, cancellationToken) =
-        asyncGetOrRequest $"season-{tvShowId}-s{seasonNumber}-{language}"
-        <| fun client ->
-               client.GetTvSeasonAsync(
-                   tvShowId,
-                   seasonNumber,
-                   language = TmdbUtils.normalizeLanguage language,
-                   includeImageLanguage = imageLanguages,
-                   extraMethods = (
-                       TvSeasonMethods.Credits |||
-                       TvSeasonMethods.Images |||
-                       TvSeasonMethods.ExternalIds |||
-                       TvSeasonMethods.Videos ),
-                   cancellationToken = cancellationToken)
-    member _.AsyncGetEpisode(tvShowId, seasonNumber, episodeNumber, language, imageLanguages, cancellationToken) = 
-        asyncGetOrRequest $"episode-{tvShowId}-s{seasonNumber}-e{episodeNumber}-{language}"
-        <| fun client -> 
-               client.GetTvEpisodeAsync(
-                   tvShowId,
-                   seasonNumber,
-                   episodeNumber,
-                   language = TmdbUtils.normalizeLanguage language,
-                   includeImageLanguage = imageLanguages,
-                   extraMethods = (
-                       TvEpisodeMethods.Credits |||
-                       TvEpisodeMethods.Images |||
-                       TvEpisodeMethods.ExternalIds |||
-                       TvEpisodeMethods.Videos),
-                   cancellationToken = cancellationToken)
-        
-    member _.GetPosterUrl(posterPath) =
-        getImageUrl tmDbClient.Config.Images.PosterSizes.Last posterPath 
-    member _.GetBackdropUrl(backdropPath) =
-        getImageUrl tmDbClient.Config.Images.BackdropSizes.Last backdropPath
-    member _.GetDiscover() = tmDbClient.DiscoverTvShowsAsync()
-    member _.GetStillUrl(filePath) =
-        getImageUrl tmDbClient.Config.Images.StillSizes.Last filePath
-
-    member inline private this.GetPersonsOfCast (personType) (cast: Cast seq) =
-        let toPersonInfo (actor: Cast) =
-            let personInfo =
-                PersonInfo(
-                    Name = actor.Name.Trim(),
-                    Role = actor.Character,
-                    Type = personType,
-                    SortOrder = actor.Order,
-                    ImageUrl = this.GetPosterUrl(actor.ProfilePath))
-            if actor.Id > 0 then personInfo.SetProviderId(MetadataProvider.Tmdb, actor.Id.ToString("D"))
-            personInfo
-        cast
-        |> Seq.sortBy (fun actor -> actor.Order) 
-        |> Seq.truncate TmdbUtils.MaxCastMembers
-        |> Seq.map toPersonInfo
-    member inline private _.GetPersonsOfCrew(crews: Crew seq) =
-        let keepTypes = [| PersonType.Director; PersonType.Writer; PersonType.Producer |]
-        let isKeepType personType = keepTypes.Contains(personType, StringComparer.OrdinalIgnoreCase)
-        let toPersonInfo (r: struct {| Type: string; Crew: Crew |}) =
-            new PersonInfo(
-                Name = r.Crew.Name.Trim(),
-                Role = r.Crew.Job,
-                Type = r.Type)
-        crews
-        |> Seq.map (fun crew -> struct {| Type = TmdbUtils.mapCrewToPersonType crew; Crew = crew |})
-        |> Seq.filter (fun r -> r.Type |> isKeepType || r.Crew.Job |> isKeepType)
-        |> Seq.map toPersonInfo
-    member inline this.GetPersons(hasCredits) = 
-        let toPersons (credits: Credits) =
-            seq {
-                credits.Cast |> Obj.map (this.GetPersonsOfCast PersonType.Actor)
-                credits.Crew |> Obj.map this.GetPersonsOfCrew
-            } |> Seq.map (Obj.defaultValue Seq.empty) |> Seq.concat
-        (^T: (member Credits: Credits) hasCredits) |> Obj.map toPersons
-    member inline this.GetPersonsWithGuestStars(hasCredits) =
-        let toPersons (credits: CreditsWithGuestStars) =
-            seq {
-                credits.Cast |> Obj.map (this.GetPersonsOfCast PersonType.Actor)
-                credits.GuestStars |> Obj.map (this.GetPersonsOfCast PersonType.GuestStar)
-                credits.Crew |> Obj.map this.GetPersonsOfCrew
-            } |> Seq.map (Obj.defaultValue Seq.empty) |> Seq.concat
-        (^T: (member Credits: CreditsWithGuestStars) hasCredits) |> Obj.map toPersons
+    member _.AsyncGetTvShowAlternativeTitles(id, cancellationToken) =
+        asyncGetOrRequestCore $"tv-{id}-alternative-titles"
+        <| fun() -> 
+            client.GetFromJsonAsync<AlternativeTitles>(
+                $"https://api.themoviedb.org/3/tv/{id}/alternative_titles?api_key={TmdbUtils.ApiKey}", 
+                cancellationToken)
 
     interface IDisposable with 
         member _.Dispose() =
