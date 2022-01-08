@@ -14,18 +14,18 @@ open MediaBrowser.Model.Entities
 type ResolverIgnoreRule(libraryManager:ILibraryManager) =
     interface IResolverIgnoreRule with 
         member _.ShouldIgnore(fileInfo, parent) =
-            let collectionType = libraryManager.GetConfiguredContentType(parent)
-            let isTvShows = String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase)
-            if isTvShows then
-                match parent with
-                | :? Season | :? Series ->
-                    if fileInfo.IsDirectory then true
-                    else if fileInfo.Extension <> ".mp4" then true
-                    else if fileInfo.Name |> MoeACGResolver.CanResolve |> not then true
-                    else false
-                | :? AggregateFolder -> false
-                | :? UserRootFolder -> false
-                | :? Folder ->
+            match parent with
+            | :? Season | :? Series ->
+                if fileInfo.IsDirectory then true
+                else if fileInfo.Extension <> ".mp4" then true
+                else if fileInfo.Name |> MoeACGResolver.CanResolve |> not then true
+                else false
+            | :? AggregateFolder -> false
+            | :? UserRootFolder -> false
+            | :? Folder ->
+                let collectionType = libraryManager.GetContentType(parent)
+                let isTvShows = String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase)
+                if isTvShows then
                     let isMp4 (path:string) = Path.GetExtension(path) = ".mp4"
                     if fileInfo.IsDirectory |> not then true
                     else
@@ -35,5 +35,5 @@ type ResolverIgnoreRule(libraryManager:ILibraryManager) =
                             isMp4 path && MoeACGResolver.CanResolve fileName
                         let exists = files |> Seq.exists canResolve
                         exists |> not
-                | _ -> true
-            else false
+                else false
+            | _ -> true
