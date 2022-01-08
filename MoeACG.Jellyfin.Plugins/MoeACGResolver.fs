@@ -1,10 +1,13 @@
 namespace MoeACG.Jellyfin.Plugins.Resolvers
 
+open System
 open Microsoft.Extensions.Logging
 open MediaBrowser.Controller.Entities
 open MediaBrowser.Controller.Entities.TV
 open MediaBrowser.Controller.Resolvers
 open System.Text.RegularExpressions
+open MediaBrowser.Controller.Library
+open MediaBrowser.Model.Entities
 
 [<Struct>]
 type EpisodeType =
@@ -30,7 +33,7 @@ type EpisodeType =
 /// [UHA-WINGS] Ijiranaide Nagatoro-san - 01 [x264 1080p][CHS].mp4
 | ``UHA-WINGS``
 
-type MoeACGResolver(logger: ILogger<MoeACGResolver>) =
+type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResolver>) =
     
     static let [<Literal>] regexOptions = RegexOptions.Compiled ||| RegexOptions.ExplicitCapture
     static let toRegex p = new Regex(p, regexOptions)
@@ -66,53 +69,57 @@ type MoeACGResolver(logger: ILogger<MoeACGResolver>) =
         member _.Priority = ResolverPriority.First
         member _.ResolvePath args =
             if (args.Parent :? AggregateFolder || args.Parent :? UserRootFolder) |> not then
-                if args.IsDirectory then
-                    if args.ContainsFileSystemEntryByName("tvshow.nfo") |> not then
-                        let result = Series(Path = args.Path)
-                        let name =
-                            let name = args.FileInfo.Name
-                            let hasBaha = 
-                                args.FileSystemChildren 
-                                |> Seq.filter (fun f -> f.IsDirectory |> not)
-                                |> Seq.exists (fun f -> f.Name |> isBaha)
-                            if hasBaha then
-                                let name = 
-                                    Regex.Match(name, ".+(?= 巴哈|第\w季)", regexOptions)
-                                    |> fun m -> if m.Success then m.Value else name
-                                name.Replace("‛", "")
-                            else name
-                        result.Name <- name
-                        result.IsRoot <- args.Parent |> isNull
-                        upcast result
-                    else null
-                else
-                    let result = Episode(Path = args.Path)
-                    let tryGetValue (name:string) (m:Match) =
-                        let group = m.Groups.[name]
-                        if group.Success then ValueSome group.Value else ValueNone
-                    let setResult m =
-                        // 名称
-                        tryGetValue "n" m
-                        |> ValueOption.map (fun n -> if m.Groups.ContainsKey("baha") then n.Replace("‛", "") else n)
-                        |> ValueOption.iter (fun n -> result.Name <- n)
+                let collectionType = libraryManager.GetContentType(args.Parent)
+                let isTvShows = String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase)
+                if isTvShows then
+                    if args.IsDirectory then
+                        if args.ContainsFileSystemEntryByName("tvshow.nfo") |> not then
+                            let result = Series(Path = args.Path)
+                            let name =
+                                let name = args.FileInfo.Name
+                                let hasBaha = 
+                                    args.FileSystemChildren 
+                                    |> Seq.filter (fun f -> f.IsDirectory |> not)
+                                    |> Seq.exists (fun f -> f.Name |> isBaha)
+                                if hasBaha then
+                                    let name = 
+                                        Regex.Match(name, ".+(?= 巴哈|第\w季)", regexOptions)
+                                        |> fun m -> if m.Success then m.Value else name
+                                    name.Replace("‛", "")
+                                else name
+                            result.Name <- name
+                            result.IsRoot <- args.Parent |> isNull
+                            upcast result
+                        else null
+                    else
+                        let result = Episode(Path = args.Path)
+                        let tryGetValue (name:string) (m:Match) =
+                            let group = m.Groups.[name]
+                            if group.Success then ValueSome group.Value else ValueNone
+                        let setResult m =
+                            // 名称
+                            tryGetValue "n" m
+                            |> ValueOption.map (fun n -> if m.Groups.ContainsKey("baha") then n.Replace("‛", "") else n)
+                            |> ValueOption.iter (fun n -> result.Name <- n)
                         
-                        // 集数
-                        tryGetValue "i" m
-                        |> ValueOption.map int
-                        |> ValueOption.iter (fun i -> result.IndexNumber <- i)
+                            // 集数
+                            tryGetValue "i" m
+                            |> ValueOption.map int
+                            |> ValueOption.iter (fun i -> result.IndexNumber <- i)
 
-                        let numberZhHansTable = "一二三四五六七八九十"
-                        let tryCastNumber (s:string) = 
-                            numberZhHansTable.IndexOf(s)
-                            |> function | -1 -> ValueNone | i -> ValueSome(i + 1)
+                            let numberZhHansTable = "一二三四五六七八九十"
+                            let tryCastNumber (s:string) = 
+                                numberZhHansTable.IndexOf(s)
+                                |> function | -1 -> ValueNone | i -> ValueSome(i + 1)
 
-                        // 季数
-                        tryGetValue "s" m
-                        |> ValueOption.bind tryCastNumber
-                        |> ValueOption.iter (fun i -> result.ParentIndexNumber <- i)
-                    epRegexs
-                    |> Seq.map (fun r -> r.Match(args.FileInfo.Name))
-                    |> Seq.tryFind (fun m -> m.Success)
-                    |> Option.iter setResult
-                    upcast result
+                            // 季数
+                            tryGetValue "s" m
+                            |> ValueOption.bind tryCastNumber
+                            |> ValueOption.iter (fun i -> result.ParentIndexNumber <- i)
+                        epRegexs
+                        |> Seq.map (fun r -> r.Match(args.FileInfo.Name))
+                        |> Seq.tryFind (fun m -> m.Success)
+                        |> Option.iter setResult
+                        upcast result
+                else null
             else null
