@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.0.0.14",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 33d24fc1f858966d2658986ef794b0489d9ae1f6 fix: 忽略器只忽略节目类型的媒体库\r\n* aa3a538de515b3425b88e6f239b5780d39c3451d Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=102&_a=release-summary).",
+        "targetAbi": "10.7.2.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.14/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "438f084363169324319160fc0e5caf87",
+        "timestamp": "2022-01-08 12:06:51"
+      },
+      {
         "version": "0.0.0.13",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* a53d9d4f781974821399c6fe73b03ac71075a1aa 忽略器只忽略节目类型的媒体库\r\n* 729d64633212eaebfa8d453446b770b5ee6bac3f Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=101&_a=release-summary).",
         "targetAbi": "10.7.2.0",
