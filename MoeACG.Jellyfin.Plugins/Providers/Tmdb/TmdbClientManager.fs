@@ -1,15 +1,11 @@
 namespace MoeACG.Jellyfin.Plugins.Providers.Tmdb
 
 open System
-open System.Linq
 open Microsoft.Extensions.Caching.Memory
 open TMDbLib.Client
-open TMDbLib.Objects.General
-open TMDbLib.Objects.TvShows
-open MediaBrowser.Controller.Entities
-open MediaBrowser.Model.Entities
 open System.Net.Http
 open System.Net.Http.Json
+open Microsoft.Extensions.Logging
 
 [<AllowNullLiteral>]
 type AlternativeTitle(iso_3166_1: string, title: string, ``type``: string) =
@@ -22,7 +18,7 @@ type AlternativeTitles(id: int, results: AlternativeTitle[]) =
     member _.Id = id
     member _.Results = results
 
-type TmdbClientManager(client: HttpClient, memoryCache: IMemoryCache) = 
+type TmdbClientManager(client: HttpClient, memoryCache: IMemoryCache, logger: ILogger<TmdbClientManager>) = 
     let [<Literal>] CacheDurationInHours = 1.0
     let tmDbClient = new TMDbClient(TmdbUtils.ApiKey)
     // Not really interested in NotFoundException
@@ -48,15 +44,22 @@ type TmdbClientManager(client: HttpClient, memoryCache: IMemoryCache) =
         asyncGetOrRequestCore key (fun() -> tmDbClient |> factory)
 
     member _.AsyncSearchSeries(name, language, year, cancellationToken) =
+        logger.LogDebug(
+            "Enter AsyncSearchSeries: name '{Name}', language: '{Language}', year: '{Year}'.",
+            name, language, year)
         asyncGetOrRequest $"searchseries-{name}-{language}"
         <| fun client ->
                 client.SearchTvShowAsync(
                     query = name,
                     language = language,
+                    includeAdult = true,
                     firstAirDateYear = year,
                     cancellationToken = cancellationToken) 
         |> (fun computation -> async { let! searchResults = computation in return searchResults.Results })
-    member _.AsyncFindByExternalId(externalId, source, language, cancellationToken) = 
+    member _.AsyncFindByExternalId(externalId, source, language, cancellationToken) =
+        logger.LogDebug(
+            "Enter AsyncFindByExternalId: externalId '{ExternalId}', source '{Source}', language '{Language}'.",
+            externalId, source, language)
         asyncGetOrRequest $"find-{source}-{externalId}-{language}"
         <| fun client ->
                client.FindAsync(
@@ -66,6 +69,7 @@ type TmdbClientManager(client: HttpClient, memoryCache: IMemoryCache) =
                    cancellationToken = cancellationToken)
 
     member _.AsyncGetTvShowAlternativeTitles(id, cancellationToken) =
+        logger.LogDebug("Enter AsyncGetTvShowAlternativeTitles: id '{Id}'.", id :> obj)
         asyncGetOrRequestCore $"tv-{id}-alternative-titles"
         <| fun() -> 
             client.GetFromJsonAsync<AlternativeTitles>(

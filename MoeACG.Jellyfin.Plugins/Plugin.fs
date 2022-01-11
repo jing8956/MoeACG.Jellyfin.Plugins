@@ -4,13 +4,18 @@ open System
 open MediaBrowser.Common.Plugins
 open MediaBrowser.Model.Plugins
 open MoeACG.Jellyfin.Plugins.Configuration
+open Microsoft.Extensions.Logging
 
 [<AllowNullLiteral>]
-type Plugin(paths, serializer) as this =
+type Plugin(paths, serializer, logger: ILogger<Plugin>) as this =
     inherit BasePlugin<PluginConfiguration>(paths, serializer)
  
     static let mutable instance: Plugin = null
-    do instance <- this
+    do
+        instance <- this;
+        seq { LogLevel.Trace; LogLevel.Debug; LogLevel.Information }
+        |> Seq.tryFind (logger.IsEnabled)
+        |> Option.iter (fun level -> logger.LogInformation("The Loglevel is '{LogLevel}'.", level))
 
     static member Instance = instance
     static member Configuration = 
