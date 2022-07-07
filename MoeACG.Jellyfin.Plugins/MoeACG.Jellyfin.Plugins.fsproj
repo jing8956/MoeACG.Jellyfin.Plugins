@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <FSharpCoreTargetFramework>netstandard2.1</FSharpCoreTargetFramework>
     <OutDir Condition="'$(Configuration)'=='Debug'">$(LocalAppData)\jellyfin\plugins\MoeACG.Jellyfin.Plugins</OutDir>
   </PropertyGroup>
@@ -19,7 +19,7 @@
     </None>
     <Folder Update="zh-Hans">
       <Visible>False</Visible>
-    </Folder>	
+    </Folder>
   </ItemGroup>
 
   <ItemGroup>
@@ -44,11 +44,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="6.0.1" GeneratePathProperty="true" />
-    <PackageReference Include="Jellyfin.Controller" Version="10.7.6" />
-    <PackageReference Include="Jellyfin.Model" Version="10.7.6" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
-    <PackageReference Include="TMDbLib" Version="1.7.3-alpha" />
+    <PackageReference Update="FSharp.Core" Version="6.0.5" GeneratePathProperty="true" />
+    <PackageReference Include="Jellyfin.Controller" Version="10.8.1" />
+    <PackageReference Include="Jellyfin.Model" Version="10.8.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="TMDbLib" Version="1.9.2" />
   </ItemGroup>
 
 </Project>
