@@ -46,9 +46,9 @@ type MoeACGSeriesProvider(
                     numberZhHansTable.IndexOf(s)
                     |> function | -1 -> None | i -> Some(i + 1)
                 let mutable name, ssNumber =
-                    match Regex.Match(info.Name, "(?<n>.+?) 第(?<s>.)季", regexOptions) with
+                    match Regex.Match(info.Name, "(?<n>.+?)第(?<s>.)季", regexOptions) with
                     | m when m.Success ->
-                        let n = m.Groups.["n"].Value
+                        let n = m.Groups.["n"].Value.TrimEnd(' ')
                         let s = m.Groups.["s"].Value
                         n, tryCastZhHansNumber s
                     | _ -> info.Name, None
