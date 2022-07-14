@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.0.0.19",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 32adf098e21be960eb2dfcfb4edbf8c6355fd576 修复巴哈特殊字符\r\n* 65728888a274922d5e4ba3e735af1dc47446714e Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=107&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.19/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "9699072420ef1509ff408739c56e2be2",
+        "timestamp": "2022-07-14 05:31:54"
+      },
+      {
         "version": "0.0.0.18",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 0558c5da55c36d3505e594fbe2b77fd6c331a3f0 实现 IMultiItemResolver，async 改 task\r\n* cba90f0510b878400fbba7485dae332ec41f66b9 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=106&_a=release-summary).",
         "targetAbi": "10.8.1.0",
