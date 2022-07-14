@@ -59,9 +59,12 @@ type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResol
             "^(?<i>\d+)\[baha]"
         } |> Seq.map toRegex |> Seq.toArray
 
+    static let isBaha fileName = Regex.IsMatch(fileName, "^【動畫瘋】", regexOptions)
+
     static member CanResolve fileName =
         canResolveRegexs
         |> Seq.exists (fun r -> r.IsMatch(fileName)) 
+
 
     interface IItemResolver with
         member _.Priority = ResolverPriority.First
@@ -75,15 +78,23 @@ type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResol
             if args.ContainsFileSystemEntryByName("season.nfo") then null else
 
             let result = Series(Path = args.Path)
+            let name = args.FileInfo.Name
+            let hasBaha = 
+                args.FileSystemChildren 
+                |> Seq.filter (fun f -> f.IsDirectory |> not)
+                |> Seq.exists (fun f -> f.Name |> isBaha)
+
+            let name = if hasBaha then name.Replace("‛", "") else name // 例：强袭魔女‛：通往柏林之路
+
             let matchName pattern name =
                 match Regex.Match(name, pattern, regexOptions) with
                 | m when m.Success -> m.Value
                 | _ -> name
             let name =
-                args.FileInfo.Name
+                name
                 |> matchName "(?<=巴哈 ).+"         // 去除开头的巴哈
                 |> matchName ".+(?= 巴哈)"          // 去除结尾的巴哈
-                // |> matchName ".+(?= 第\w季)"        // 去除结尾的第X季
+                // |> matchName ".+(?= 第\w季)"     // 去除结尾的第X季
                 |> matchName ".+(?= 年龄限制版)"    // 去除结尾的年齡限制版
             result.Name <- name
             result.IsRoot <- args.Parent |> isNull
