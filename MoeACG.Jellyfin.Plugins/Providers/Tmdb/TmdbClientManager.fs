@@ -3,78 +3,63 @@ namespace MoeACG.Jellyfin.Plugins.Providers.Tmdb
 open System
 open Microsoft.Extensions.Caching.Memory
 open TMDbLib.Client
-open System.Net.Http
-open System.Net.Http.Json
+open System.Threading.Tasks
 open Microsoft.Extensions.Logging
 
-[<AllowNullLiteral>]
-type AlternativeTitle(iso_3166_1: string, title: string, ``type``: string) =
-    member _.Iso_3166_1 = iso_3166_1
-    member _.Title = title
-    member _.Type = ``type``
-
-[<AllowNullLiteral>]
-type AlternativeTitles(id: int, results: AlternativeTitle[]) =
-    member _.Id = id
-    member _.Results = results
-
-type TmdbClientManager(client: HttpClient, memoryCache: IMemoryCache, logger: ILogger<TmdbClientManager>) = 
+type TmdbClientManager(memoryCache: IMemoryCache, logger: ILogger<TmdbClientManager>) = 
     let [<Literal>] CacheDurationInHours = 1.0
     let tmDbClient = new TMDbClient(TmdbUtils.ApiKey)
     // Not really interested in NotFoundException
     do tmDbClient.ThrowApiExceptions <- false
 
-    let asyncEnsureClientConfig = 
-        async {
-            if not tmDbClient.HasConfig then
-                do! tmDbClient.GetConfigAsync() |> Async.AwaitTask |> Async.Ignore
-        }
-    let asyncGetOrRequestCore key factory =
-        async {
-            let mutable value = Unchecked.defaultof<'T>
-            if memoryCache.TryGetValue<'T>(key, &value) then return value
-            else
-                do! asyncEnsureClientConfig
-                let! value = factory() |> Async.AwaitTask
-                if value |> isNull |> not then 
+    let ensureClientConfigAsync =
+        task {
+            if not tmDbClient.HasConfig then do! tmDbClient.GetConfigAsync() :> Task
+        } |> ValueTask
+    let getOrRequestCoreAsync key factory =
+        task {
+            match memoryCache.TryGetValue<'T>(key) with
+            | true, value -> return value
+            | _ ->
+                do! ensureClientConfigAsync
+                match! factory() with
+                | null -> return null
+                | value ->
                     memoryCache.Set(key, value, TimeSpan.FromHours(CacheDurationInHours)) |> ignore
-                return value
+                    return value
         }
-    let asyncGetOrRequest key factory = 
-        asyncGetOrRequestCore key (fun() -> tmDbClient |> factory)
+    let getOrRequestAsync key factory = getOrRequestCoreAsync key (fun() -> tmDbClient |> factory) 
 
-    member _.AsyncSearchSeries(name, language, year, cancellationToken) =
-        logger.LogDebug(
-            "Enter AsyncSearchSeries: name '{Name}', language: '{Language}', year: '{Year}'.",
-            name, language, year)
-        asyncGetOrRequest $"searchseries-{name}-{language}"
-        <| fun client ->
-                client.SearchTvShowAsync(
-                    query = name,
-                    language = language,
-                    includeAdult = true,
-                    firstAirDateYear = year,
-                    cancellationToken = cancellationToken) 
-        |> (fun computation -> async { let! searchResults = computation in return searchResults.Results })
-    member _.AsyncFindByExternalId(externalId, source, language, cancellationToken) =
-        logger.LogDebug(
-            "Enter AsyncFindByExternalId: externalId '{ExternalId}', source '{Source}', language '{Language}'.",
-            externalId, source, language)
-        asyncGetOrRequest $"find-{source}-{externalId}-{language}"
-        <| fun client ->
-               client.FindAsync(
-                   source = source,
-                   id = externalId,
-                   language = TmdbUtils.normalizeLanguage language,
-                   cancellationToken = cancellationToken)
-
-    member _.AsyncGetTvShowAlternativeTitles(id, cancellationToken) =
-        logger.LogDebug("Enter AsyncGetTvShowAlternativeTitles: id '{Id}'.", id :> obj)
-        asyncGetOrRequestCore $"tv-{id}-alternative-titles"
-        <| fun() -> 
-            client.GetFromJsonAsync<AlternativeTitles>(
-                $"https://api.themoviedb.org/3/tv/{id}/alternative_titles?api_key={TmdbUtils.ApiKey}", 
-                cancellationToken)
+    member _.SearchSeriesAsync(name, language, year, cancellationToken) =
+        task {
+           logger.LogDebug("Enter AsyncSearchSeries: name '{Name}', language: '{Language}', year: '{Year}'.", name, language, year)
+           let! result = getOrRequestAsync $"searchseries-{name}-{language}" (
+               fun client ->
+                   client.SearchTvShowAsync(
+                       query = name,
+                       language = language,
+                       includeAdult = true,
+                       firstAirDateYear = year,
+                       cancellationToken = cancellationToken))
+           return result.Results
+        }
+    member _.FindByExternalIdAsync(externalId, source, language, cancellationToken) =
+        task {
+            logger.LogDebug("Enter AsyncFindByExternalId: externalId '{ExternalId}', source '{Source}', language '{Language}'.", externalId, source, language)
+            return! getOrRequestAsync $"find-{source}-{externalId}-{language}" (
+                fun client ->
+                    client.FindAsync(
+                       source = source,
+                       id = externalId,
+                       language = TmdbUtils.normalizeLanguage language,
+                       cancellationToken = cancellationToken))
+        }
+    member _.GetTvShowAlternativeTitlesAsync(id, cancellationToken) =
+        task {
+            logger.LogDebug("Enter AsyncGetTvShowAlternativeTitles: id '{Id}'.", id :> obj)
+            return! getOrRequestAsync $"tv-{id}-alternative-titles" (
+                fun client -> client.GetTvShowAlternativeTitlesAsync(id, cancellationToken))
+        }
 
     interface IDisposable with 
         member _.Dispose() =

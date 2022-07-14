@@ -15,7 +15,7 @@ type MoeACGEpisodeProvider(httpClientFactory: IHttpClientFactory) =
         member this.GetSearchResults(searchInfo, cancellationToken) = 
             Task.FromResult(Seq.empty)
         member _.GetMetadata(info, cancellationToken) =
-            async {
+            task {
                 let result = new MetadataResult<Episode>(HasMetadata = false)
 
                 if info.ParentIndexNumber ?= 1 then
@@ -32,6 +32,6 @@ type MoeACGEpisodeProvider(httpClientFactory: IHttpClientFactory) =
                         result.Item.ParentIndexNumber <- ss)
 
                 return result
-            } |> Async.StartAsTask
+            }
         member _.GetImageResponse(url, cancellationToken) = 
             httpClientFactory.CreateClient(NamedClient.Default).GetAsync(url, cancellationToken)

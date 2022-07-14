@@ -14,7 +14,7 @@ type MoeACGSeasonProvider(httpClientFactory: IHttpClientFactory, tmdbClientManag
         member _.Name = TmdbUtils.ProviderName
         member _.GetSearchResults(_searchInfo, _cancellationToken) = Seq.empty |> Task.FromResult
         member _.GetMetadata(info, cancellationToken) =
-            async {
+            task {
                 let result = new MetadataResult<Season>(HasMetadata = false)
 
                 // if info.IndexNumber.HasValue |> not then
@@ -31,6 +31,6 @@ type MoeACGSeasonProvider(httpClientFactory: IHttpClientFactory, tmdbClientManag
                 //         result.Item.IndexNumber <- ss)
 
                 return result
-            } |> Async.StartAsTask
+            }
         member _.GetImageResponse(url, cancellationToken) =
             httpClientFactory.CreateClient(NamedClient.Default).GetAsync(url, cancellationToken)

@@ -59,8 +59,6 @@ type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResol
             "^(?<i>\d+)\[baha]"
         } |> Seq.map toRegex |> Seq.toArray
 
-    static let isBaha fileName = Regex.IsMatch(fileName, "^【動畫瘋】", regexOptions)
-
     static member CanResolve fileName =
         canResolveRegexs
         |> Seq.exists (fun r -> r.IsMatch(fileName)) 
@@ -68,31 +66,74 @@ type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResol
     interface IItemResolver with
         member _.Priority = ResolverPriority.First
         member _.ResolvePath args =
-            if (args.Parent :? AggregateFolder || args.Parent :? UserRootFolder) |> not then
-                let collectionType = libraryManager.GetContentType(args.Parent)
-                let isTvShows = String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase)
-                if isTvShows then
-                    if args.IsDirectory then
-                        if args.ContainsFileSystemEntryByName("tvshow.nfo") |> not then
-                            let result = Series(Path = args.Path)
-                            let name =
-                                let name = args.FileInfo.Name
-                                let hasBaha = 
-                                    args.FileSystemChildren 
-                                    |> Seq.filter (fun f -> f.IsDirectory |> not)
-                                    |> Seq.exists (fun f -> f.Name |> isBaha)
-                                if hasBaha then
-                                    let name = 
-                                        Regex.Match(name, ".+(?= 巴哈|第\w季)", regexOptions)
-                                        |> fun m -> if m.Success then m.Value else name
-                                    name.Replace("‛", "")
-                                else name
-                            result.Name <- name
-                            result.IsRoot <- args.Parent |> isNull
-                            upcast result
-                        else null
-                    else
-                        let result = Episode(Path = args.Path)
+            if args.Parent :? AggregateFolder then null else
+            if args.Parent :? UserRootFolder  then null else
+
+            let collectionType = libraryManager.GetContentType(args.Parent)
+            if String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase) |> not then null else
+            if args.ContainsFileSystemEntryByName("tvshow.nfo") then null else
+            if args.ContainsFileSystemEntryByName("season.nfo") then null else
+
+            let result = Series(Path = args.Path)
+            let matchName pattern name =
+                match Regex.Match(name, pattern, regexOptions) with
+                | m when m.Success -> m.Value
+                | _ -> name
+            let name =
+                args.FileInfo.Name
+                |> matchName "(?<=巴哈 ).+"         // 去除开头的巴哈
+                |> matchName ".+(?= 巴哈)"          // 去除结尾的巴哈
+                // |> matchName ".+(?= 第\w季)"        // 去除结尾的第X季
+                |> matchName ".+(?= 年龄限制版)"    // 去除结尾的年齡限制版
+            result.Name <- name
+            result.IsRoot <- args.Parent |> isNull
+            upcast result
+
+    interface IMultiItemResolver with
+        member _.ResolveMultiple(parent, files, collectionType, directoryService) =
+            if parent :? AggregateFolder then null else
+            if parent :? UserRootFolder  then null else
+            if String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase) |> not then null else
+            if files |> Seq.exists (fun f -> String.Equals(f.Name, "tvshow.nfo", StringComparison.OrdinalIgnoreCase)) then null else
+            if files |> Seq.exists (fun f -> String.Equals(f.Name, "season.nfo", StringComparison.OrdinalIgnoreCase)) then null else
+            if parent :? Series |> not then null else
+
+            let result = new MultiItemResolverResult()
+            for file in files do
+                let ep = Episode(Path = file.FullName)
+                let tryGetValue (name:string) (m:Match) =
+                    let group = m.Groups.[name]
+                    if group.Success then ValueSome group.Value else ValueNone
+                let setResult m =
+                    // 名称
+                    tryGetValue "n" m
+                    |> ValueOption.map (fun n -> if m.Groups.ContainsKey("baha") then n.Replace("‛", "") else n)
+                    |> ValueOption.iter (fun n -> ep.Name <- n)
+                        
+                    // 集数
+                    tryGetValue "i" m
+                    |> ValueOption.map int
+                    |> ValueOption.iter (fun i -> ep.IndexNumber <- i)
+
+                    let numberZhHansTable = "一二三四五六七八九十"
+                    let tryCastNumber (s:string) = 
+                        numberZhHansTable.IndexOf(s)
+                        |> function | -1 -> ValueNone | i -> ValueSome(i + 1)
+
+                    // 季数
+                    tryGetValue "s" m
+                    |> ValueOption.bind tryCastNumber
+                    |> ValueOption.iter (fun i -> ep.ParentIndexNumber <- i)
+                epRegexs
+                |> Seq.map (fun r -> r.Match(file.Name))
+                |> Seq.tryFind (fun m -> m.Success)
+                |> Option.iter setResult
+                result.Items.Add(ep)
+                    
+            result
+
+
+(*let result = Episode(Path = args.Path)
                         let tryGetValue (name:string) (m:Match) =
                             let group = m.Groups.[name]
                             if group.Success then ValueSome group.Value else ValueNone
@@ -121,5 +162,4 @@ type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResol
                         |> Seq.tryFind (fun m -> m.Success)
                         |> Option.iter setResult
                         upcast result
-                else null
-            else null
+*)
