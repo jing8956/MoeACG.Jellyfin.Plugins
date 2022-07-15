@@ -78,7 +78,7 @@ type MoeACGSeriesProvider(
                     let! titles = tmdbClientManager.GetTvShowAlternativeTitlesAsync(id, cancellationToken)
                     let ``type`` =
                         titles.Results
-                        |> Seq.filter (fun t -> t.Title = name)
+                        |> Seq.filter (fun t -> String.Equals(t.Title, name, StringComparison.InvariantCultureIgnoreCase))
                         |> Seq.map (fun t -> t.Type)
                         |> Seq.tryHead
                     let ssNumber =
@@ -89,15 +89,16 @@ type MoeACGSeriesProvider(
                                 if String.IsNullOrWhiteSpace(t) then Some(1) else None
             
                             let tryGetZhHansNumber s =
-                                let g = Regex.Match(s, "第(?<s>.)季").Groups.["s"]
+                                let g = Regex.Match(s, "第(?<s>.)季", regexOptions).Groups.["s"]
                                 if g.Success then Some(g.Value) else None
             
                             let tryGetEnNumber s =
-                                let g = Regex.Match(s, "[Ss](?<s>\d+)").Groups.["s"]
+                                let g = Regex.Match(s, "[Ss](eason )?(?<s>\d+)", regexOptions).Groups.["s"]
                                 if g.Success then Some(g.Value) else None
             
                             let tryValueWhenContains (test:string) v (s:string) =
                                 if s.Contains(test) then Some(v) else None
+
                             seq {
                                 ``type``
                                 |> Option.bind tryOneWhenNullOrWhiteSpace

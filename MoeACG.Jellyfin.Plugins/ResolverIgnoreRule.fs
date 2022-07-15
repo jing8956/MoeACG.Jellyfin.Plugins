@@ -12,12 +12,15 @@ open MediaBrowser.Controller.Library
 open MediaBrowser.Model.Entities
 
 type ResolverIgnoreRule(libraryManager:ILibraryManager) =
+    static let mediaFileExtensions = [| ".mp4"; ".mkv" |]
+    let isMediaFileExtension extension = mediaFileExtensions |> Seq.contains extension
+
     interface IResolverIgnoreRule with 
         member _.ShouldIgnore(fileInfo, parent) =
             match parent with
             | :? Season | :? Series ->
                 if fileInfo.IsDirectory then true
-                else if fileInfo.Extension <> ".mp4" then true
+                else if fileInfo.Extension |> isMediaFileExtension |> not then true
                 else if fileInfo.Name |> MoeACGResolver.CanResolve |> not then true
                 else false
             | :? AggregateFolder -> false
@@ -26,13 +29,13 @@ type ResolverIgnoreRule(libraryManager:ILibraryManager) =
                 let collectionType = libraryManager.GetContentType(parent)
                 let isTvShows = String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase)
                 if isTvShows then
-                    let isMp4 (path:string) = Path.GetExtension(path) = ".mp4"
                     if fileInfo.IsDirectory |> not then true
                     else
                         let files = Directory.EnumerateFiles(fileInfo.FullName)
                         let canResolve (path:string) =
                             let fileName = Path.GetFileNameWithoutExtension path
-                            isMp4 path && MoeACGResolver.CanResolve fileName
+                            let extension = Path.GetExtension(path)
+                            extension |> isMediaFileExtension && MoeACGResolver.CanResolve fileName
                         let exists = files |> Seq.exists canResolve
                         exists |> not
                 else false

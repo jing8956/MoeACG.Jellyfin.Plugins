@@ -46,6 +46,7 @@ type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResol
             "^\[Airota]\[.+]\[\d+]"
             "^\[KTXP]\[.+]\[\d+]"
             "^\[UHA-WINGS] .+ - \d+"
+            "^\[Snow-Raws] .+ 第\d+話"
             "^\d+\[baha]"
         } |> toRegexArray
 
@@ -56,6 +57,7 @@ type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResol
             "^\[Airota]\[(?<n>.+)]\[(?<i>\d+)]"
             "^\[KTXP]\[(?<n>.+)]\[(?<i>\d+)]"
             "^\[UHA-WINGS] (?<n>.+) - (?<i>\d+)"
+            "^\[Snow-Raws] (?<n>.+) 第(?<i>\d+)話"
             "^(?<i>\d+)\[baha]"
         } |> Seq.map toRegex |> Seq.toArray
 
@@ -93,6 +95,7 @@ type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResol
             let name =
                 name
                 |> matchName "(?<=巴哈 ).+"         // 去除开头的巴哈
+                |> matchName "(?<=\[Snow-Raws] ).+" // 去除开头的[Snow-Raws]
                 |> matchName ".+(?= 巴哈)"          // 去除结尾的巴哈
                 |> matchName ".+(?=第\w季)"         // 去除结尾的第X季
                 |> matchName ".+(?= 年龄限制版)"    // 去除结尾的年齡限制版
