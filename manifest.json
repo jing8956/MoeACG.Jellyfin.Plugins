@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.0.0.21",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 0ce5f64489cb320173ae16ea19d7a9331907f7b1 支持Snow-Raws\r\n* 357d90ef7f39402d77a52c299c97a6b737cd1f6b Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=109&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.21/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "1f2e98f5b45a91170a43c49e14432025",
+        "timestamp": "2022-07-15 05:35:17"
+      },
+      {
         "version": "0.0.0.20",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 99963540a3369719b35a97765fdc80b556e88e57 修复第X季前没有空格\r\n* f98ac78eba15d6a6ac8a2e1b3668ae060590ab78 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=108&_a=release-summary).",
         "targetAbi": "10.8.1.0",
