@@ -42,24 +42,36 @@ type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResol
     static let canResolveRegexs =
         seq {
             "^【動畫瘋】.+(?<!\[特別篇])\[\d+]"
+
             "^\[Nekomoe kissaten]\[.+]\[\d+]"
             "^\[Airota]\[.+]\[\d+]"
             "^\[KTXP]\[.+]\[\d+]"
             "^\[XKsub]\[.+]\[\d+]"
+            "^\[Mmch.sub]\[.+]\[\d+]"
+
             "^\[UHA-WINGS] .+ - \d+"
             "^\[Snow-Raws] .+ 第\d+話"
+            "^\[HYSUB].+\[\d+]"
+            "^\[Sakurato] .+ \[\d+]"
+
             "^\d+\[baha]"
         } |> toRegexArray
 
     static let epRegexs =
         seq {
             "^【(?<baha>動畫瘋)】(?<n>.+?) ?(第(?<s>.)季)?\[(?<i>\d+)]"
+
             "^\[Nekomoe kissaten]\[(?<n>.+)]\[(?<i>\d+)]"
             "^\[Airota]\[(?<n>.+)]\[(?<i>\d+)]"
             "^\[KTXP]\[(?<n>.+)]\[(?<i>\d+)]"
             "^\[XKsub]\[(?<n>.+)]\[(?<i>\d+)]"
+            "^\[Mmch.sub]\[(?<n>.+)]\[(?<i>\d+)]"
+
             "^\[UHA-WINGS] (?<n>.+) - (?<i>\d+)"
             "^\[Snow-Raws] (?<n>.+) 第(?<i>\d+)話"
+            "^\[HYSUB](?<n>.+)\[(?<i>\d+)]"
+            "^\[Sakurato] (?<n>.+) \[(?<i>\d+)]"
+
             "^(?<i>\d+)\[baha]"
         } |> Seq.map toRegex |> Seq.toArray
 
