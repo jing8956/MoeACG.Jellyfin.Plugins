@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.23",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 2f94e68c6d8421067402b496138ea803ac86157a 支持 Mmch.sub、HYSUB、Sakurato\r\n* 1d020e653f54f3b3a6edbc181f4eb2552cad49ae Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=111&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.23/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "d86a1458bc9c7a37de59708a328252b2",
+        "timestamp": "2022-10-12 07:21:34"
+      },
+      {
         "version": "0.0.0.22",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 7875ef2b45794c570281c8cf7613f4621754d457 支持 XKsub\r\n* 31c40d85d3b126c482ffd8c31de2d57b36742a13 分类改到 Metadata\r\n* e90622f9f5d4dfc09158382f3f153e6e6601fbff Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=110&_a=release-summary).",
         "targetAbi": "10.8.1.0",
