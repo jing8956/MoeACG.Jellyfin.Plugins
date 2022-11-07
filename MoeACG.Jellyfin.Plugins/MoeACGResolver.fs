@@ -53,6 +53,7 @@ type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResol
             "^\[Snow-Raws] .+ 第\d+話"
             "^\[HYSUB].+\[\d+]"
             "^\[Sakurato] .+ \[\d+]"
+            "^\[NGA&Sakurato] .+ \[\d+]"
 
             "^\d+\[baha]"
         } |> toRegexArray
@@ -71,6 +72,7 @@ type MoeACGResolver(libraryManager: ILibraryManager, logger: ILogger<MoeACGResol
             "^\[Snow-Raws] (?<n>.+) 第(?<i>\d+)話"
             "^\[HYSUB](?<n>.+)\[(?<i>\d+)]"
             "^\[Sakurato] (?<n>.+) \[(?<i>\d+)]"
+            "^\[NGA&Sakurato] (?<n>.+) \[(?<i>\d+)]"
 
             "^(?<i>\d+)\[baha]"
         } |> Seq.map toRegex |> Seq.toArray
