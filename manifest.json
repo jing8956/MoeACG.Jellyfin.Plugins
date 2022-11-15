@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.25",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* b5c9350ea1a6367bfd15967339f0d1416b6b2a71 可配置剧集正则表达式\r\n* 894161f3387b7d1452b5e10e734764f0dc558b63 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=113&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.25/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "4a40bbfca91da9bba7317ecae447cf08",
+        "timestamp": "2022-11-15 04:09:17"
+      },
+      {
         "version": "0.0.0.24",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* d4c384d24051a7a44a0b3de01564513937520f2a 支持 NGA&Sakurato\r\n* b48a1dcbd1360d645b1a7e22d49f287072d98164 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=112&_a=release-summary).",
         "targetAbi": "10.8.1.0",
