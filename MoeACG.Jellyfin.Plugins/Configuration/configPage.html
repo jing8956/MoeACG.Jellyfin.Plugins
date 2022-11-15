@@ -10,6 +10,16 @@
             <div class="content-primary">
                 <form id="MoeACGConfigForm">
                     <p>MoeACG.Jellyfin.Plugins v<span id="version"></span></p>
+                    <div class="inputContainer">
+                        <label class="inputeLabel inputLabelUnfocused" for="episodeRegexs">Episode Regexs</label>
+                        <textarea id="episodeRegexs" name="episodeRegexs" class="emby-textarea" is="emby-textarea" />
+                        <div class="fieldDescription">识别剧集的正则表达式</div>
+                    </div>
+                    <div>
+                        <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                            <span>Save</span>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -23,8 +33,23 @@
                     Dashboard.showLoadingMsg();
                     ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
                         document.querySelector('#version').textContent = config.Version;
+                        document.querySelector('#episodeRegexs').value = config.EpisodeRegexs;
                         Dashboard.hideLoadingMsg();
                     });
+                });
+
+            document.querySelector('#MoeACGConfigPage')
+                .addEventListener('submit', function (e) {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
+                        config.EpisodeRegexs = document.querySelector('#episodeRegexs').value;
+                        ApiClient.updatePluginConfiguration(TemplateConfig.pluginUniqueId, config).then(function (result) {
+                            Dashboard.processPluginConfigurationUpdateResult(result);
+                        });
+                    });
+
+                    e.preventDefault();
+                    return false;
                 });
         </script>
     </div>

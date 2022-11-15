@@ -7,4 +7,5 @@ open MoeACG.Jellyfin.Plugins.Providers.Tmdb
 type PluginServiceRegistrator() =
     interface IPluginServiceRegistrator with
         member _.RegisterServices(serviceCollection) =
+            serviceCollection.AddTransient<EpisodeRegexsProvider>() |> ignore
             serviceCollection.AddSingleton<TmdbClientManager>() |> ignore

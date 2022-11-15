@@ -6,12 +6,11 @@ open System
 open System.IO
 open MediaBrowser.Controller.Resolvers
 open MediaBrowser.Controller.Entities.TV
-open MoeACG.Jellyfin.Plugins.Resolvers
 open MediaBrowser.Controller.Entities
 open MediaBrowser.Controller.Library
 open MediaBrowser.Model.Entities
 
-type ResolverIgnoreRule(libraryManager:ILibraryManager) =
+type ResolverIgnoreRule(episodeRegexsProvider: EpisodeRegexsProvider,libraryManager:ILibraryManager) =
     static let mediaFileExtensions = [| ".mp4"; ".mkv" |]
     let isMediaFileExtension extension = mediaFileExtensions |> Seq.contains extension
 
@@ -21,7 +20,7 @@ type ResolverIgnoreRule(libraryManager:ILibraryManager) =
             | :? Season | :? Series ->
                 if fileInfo.IsDirectory then true
                 else if fileInfo.Extension |> isMediaFileExtension |> not then true
-                else if fileInfo.Name |> MoeACGResolver.CanResolve |> not then true
+                else if fileInfo.Name |> episodeRegexsProvider.CanResolve |> not then true
                 else false
             | :? AggregateFolder -> false
             | :? UserRootFolder -> false
@@ -35,7 +34,7 @@ type ResolverIgnoreRule(libraryManager:ILibraryManager) =
                         let canResolve (path:string) =
                             let fileName = Path.GetFileNameWithoutExtension path
                             let extension = Path.GetExtension(path)
-                            extension |> isMediaFileExtension && MoeACGResolver.CanResolve fileName
+                            extension |> isMediaFileExtension && episodeRegexsProvider.CanResolve fileName
                         let exists = files |> Seq.exists canResolve
                         exists |> not
                 else false
