@@ -12,12 +12,13 @@ type EpisodeRegexsProvider(logger: ILogger<EpisodeRegexsProvider>) =
         | :? ArgumentException as e ->
             logger.LogWarning(e, "Create regex failed.")
             None
-    let toRegexArray = Seq.choose toRegex >> Seq.toArray
+    let toRegex = Seq.choose toRegex
 
     member _.EpisodeRegexs =
+        logger.LogTrace("Create episode regexs")
         Plugin.Configuration.EpisodeRegexs
         |> fun s -> s.Split('\n', StringSplitOptions.RemoveEmptyEntries ||| StringSplitOptions.TrimEntries)
-        |> toRegexArray
+        |> toRegex
         // seq {
         //     "^【(?<baha>動畫瘋)】(?<n>.+?) ?(第(?<s>.)季)?(?<!\[特別篇])\[(?<i>\d+)]"
         // 
