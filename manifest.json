@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.28",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 66ccb85ebeafdf9febde28a5662eb39cbca7a276 修复 MoeACGEpisodeProvider 刷新元数据\r\n* 068420051b91ebc18fb72230f988e173c763086a Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=116&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.28/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "2b72b473af5c0c5850314642e05f1013",
+        "timestamp": "2022-11-15 05:20:48"
+      },
+      {
         "version": "0.0.0.27",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 169265d8778e90e2db91675fbbfea5ffef301dc9 textareaLabel\r\n* e171dae6fd5309b044a7a19677e74a9ce11f2a87 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=115&_a=release-summary).",
         "targetAbi": "10.8.1.0",
