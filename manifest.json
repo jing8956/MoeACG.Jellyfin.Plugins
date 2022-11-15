@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.26",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 868e68b0cafc082abbb06e76b00824a288f80058 修复 textarea\r\n* 5a856b782fc591960df0478045f685758512c9b5 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=114&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.26/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "cedbfaf2e1fc9bf78aa1ba5e52fff275",
+        "timestamp": "2022-11-15 04:16:53"
+      },
+      {
         "version": "0.0.0.25",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* b5c9350ea1a6367bfd15967339f0d1416b6b2a71 可配置剧集正则表达式\r\n* 894161f3387b7d1452b5e10e734764f0dc558b63 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=113&_a=release-summary).",
         "targetAbi": "10.8.1.0",
