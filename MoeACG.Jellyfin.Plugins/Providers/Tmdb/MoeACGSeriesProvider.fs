@@ -93,7 +93,7 @@ type MoeACGSeriesProvider(
                                 if g.Success then Some(g.Value) else None
             
                             let tryGetEnNumber s =
-                                let g = Regex.Match(s, "[Ss](eason )?(?<s>\d+)", regexOptions).Groups.["s"]
+                                let g = Regex.Match(s, "[Ss](eason ?)?(?<s>\d+)", regexOptions).Groups.["s"]
                                 if g.Success then Some(g.Value) else None
             
                             let tryValueWhenContains (test:string) v (s:string) =

@@ -104,6 +104,10 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
                     let tryCastNumber (s:string) = 
                         numberZhHansTable.IndexOf(s)
                         |> function | -1 -> ValueNone | i -> ValueSome(i + 1)
+                        |> ValueOption.orElseWith (fun() ->
+                            match Int32.TryParse(s) with
+                            | (true, v) -> ValueSome(v)
+                            | _ -> ValueNone)
 
                     // 季数
                     tryGetValue "s" m
