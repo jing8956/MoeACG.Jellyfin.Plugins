@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.30",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* b56d6597cfd34ba50d67461ea4d00949cc495336 MoeACGResolver 保留季数\r\n* 7715cec3fc69a4addfb230749b0495d64b008562 Update MoeACGResolver.fs\r\n* f955b37c3541b9544987130200fe1f8ccd23dc52 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=118&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.30/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "a6ca37dadf8da7a0493de34457abc5aa",
+        "timestamp": "2022-12-03 15:19:32"
+      },
+      {
         "version": "0.0.0.29",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 8b8acb67dfaeb0079187d5405785443708b69b2a regex seq\r\n* e93a211b9e5466b85650f5ff04743a78b6efdee1 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=117&_a=release-summary).",
         "targetAbi": "10.8.1.0",
