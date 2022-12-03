@@ -68,7 +68,7 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
                 |> matchName "(?<=巴哈 ).+"         // 去除开头的巴哈
                 |> matchName "(?<=\[Snow-Raws] ).+" // 去除开头的[Snow-Raws]
                 |> matchName ".+(?= 巴哈)"          // 去除结尾的巴哈
-                |> matchName ".+(?=第\w季)"         // 去除结尾的第X季
+                // |> matchName ".+(?=第\w季)"         // 去除结尾的第X季
                 |> matchName ".+(?= 年龄限制版)"    // 去除结尾的年齡限制版
             result.Name <- name
             result.IsRoot <- args.Parent |> isNull
