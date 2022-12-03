@@ -59,18 +59,14 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
 
             let name = if hasBaha then name.Replace("‛", "") else name // 例：强袭魔女‛：通往柏林之路
 
-            let matchName pattern name =
-                match Regex.Match(name, pattern, regexOptions) with
-                | m when m.Success -> m.Value
-                | _ -> name
+            let replace pattern name = Regex.Replace(name, pattern, "")
             let name =
                 name
-                |> matchName "(?<=巴哈 ).+"         // 去除开头的巴哈
-                |> matchName "(?<=\[Snow-Raws] ).+" // 去除开头的[Snow-Raws]
-                |> matchName ".+(?= 巴哈)"          // 去除结尾的巴哈
-                // |> matchName ".+(?=第\w季)"         // 去除结尾的第X季
-                |> matchName ".+(?= 年龄限制版)"    // 去除结尾的年齡限制版
-            result.Name <- name
+                |> replace "巴哈"
+                |> replace "^\[Snow-Raws] "
+                |> replace "年龄限制版"
+
+            result.Name <- name.Trim()
             result.IsRoot <- args.Parent |> isNull
             upcast result
 
