@@ -38,4 +38,4 @@ type ResolverIgnoreRule(episodeRegexsProvider: EpisodeRegexsProvider,libraryMana
                         let exists = files |> Seq.exists canResolve
                         exists |> not
                 else false
-            | _ -> true
+            | _ -> false

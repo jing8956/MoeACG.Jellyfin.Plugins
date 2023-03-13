@@ -42,6 +42,7 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
     interface IItemResolver with
         member _.Priority = ResolverPriority.First
         member _.ResolvePath args =
+            if args.Parent = null then null else
             if args.Parent :? AggregateFolder then null else
             if args.Parent :? UserRootFolder  then null else
 
