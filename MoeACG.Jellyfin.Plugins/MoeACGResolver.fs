@@ -50,22 +50,19 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
             if String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase) |> not then null else
             if args.ContainsFileSystemEntryByName("tvshow.nfo") then null else
             if args.ContainsFileSystemEntryByName("season.nfo") then null else
-
+            
             let result = Series(Path = args.Path)
-            let name = args.FileInfo.Name
-            let hasBaha = 
-                args.FileSystemChildren 
-                |> Seq.filter (fun f -> f.IsDirectory |> not)
-                |> Seq.exists (fun f -> f.Name |> isBaha)
-
-            let name = if hasBaha then name.Replace("‛", "") else name // 例：强袭魔女‛：通往柏林之路
-
-            let replace pattern name = Regex.Replace(name, pattern, "")
             let name =
-                name
-                |> replace "巴哈"
-                |> replace "^\[Snow-Raws] "
-                |> replace "年龄限制版"
+                query {
+                    for f in args.FileSystemChildren do
+                    where (f.IsDirectory |> not)
+                    for r in episodeRegexsProvider.EpisodeRegexs do
+                    let m = r.Match(f.Name)
+                    where m.Success
+                    let n = m.Groups.["n"].Value
+                    select (if m.Groups.ContainsKey("baha") then n.Replace("‛", "") else n)
+                    head 
+                }
 
             result.Name <- name.Trim()
             result.IsRoot <- args.Parent |> isNull

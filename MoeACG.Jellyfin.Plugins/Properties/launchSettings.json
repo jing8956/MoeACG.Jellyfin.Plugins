@@ -2,9 +2,10 @@
   "profiles": {
     "MoeACG.Jellyfin.Plugins": {
       "commandName": "Executable",
-      "executablePath": "%UserProfile%\\source\\repos\\jellyfin\\Jellyfin.Server\\bin\\Release\\net6.0\\jellyfin.exe",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:8096",
+      "executablePath": "%UserProfile%\\source\\repos\\jellyfin\\Jellyfin.Server\\bin\\Debug\\net6.0\\jellyfin.exe",
       "workingDirectory": "%UserProfile%\\source\\repos\\jellyfin\\Jellyfin.Server",
-      "applicationUrl": "https://localhost:58920",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "JELLYFIN_DATA_DIR": "%USERPROFILE%\\source\\jellyfin-data",
