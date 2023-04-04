@@ -72,7 +72,20 @@ type MoeACGSeriesProvider(
                             |> Seq.tryHead
                             |> Option.map (fun tv -> tv.Id)
                     | _ -> ()
-                   
+
+                if id.IsNone then // 例：Sound!Euphonium2
+                   match Regex.Match(name, "(?<n>.*)(?<s>\d+)", regexOptions) with
+                   | m when m.Success ->
+                       name <- m.Groups.["n"].Value
+                       let! searchResults = tmdbClientManager.SearchSeriesAsync(name, info.MetadataLanguage, year, cancellationToken)
+                       id <-
+                           searchResults
+                           |> Seq.filter (fun tv -> tv.GenreIds.Contains(16))
+                           |> Seq.tryHead
+                           |> Option.map (fun tv -> tv.Id)
+                       ssNumber <- Some(Int32.Parse(m.Groups.["s"].Value))
+                   | _ -> ()
+
                 match id with
                 | Some id ->
                     let! titles = tmdbClientManager.GetTvShowAlternativeTitlesAsync(id, cancellationToken)
