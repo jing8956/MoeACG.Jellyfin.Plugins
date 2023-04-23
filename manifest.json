@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.34",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* eef5dd25b8701052bf41c5277d1b6196e142f106 适配动漫国字幕组下划线\r\n* caf3299d006ace453a20d9b0d5471ede7ff408ed Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=122&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.34/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "367cb2f9a40b5b0db478756fcf973cc9",
+        "timestamp": "2023-04-23 10:32:24"
+      },
+      {
         "version": "0.0.0.33",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* c3298e67f9a24a582005cc377033e51fc9a5925e 适配英文+季号\r\n* a704df320cfbb5095d8b4493753b5f2aff646ddd Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=121&_a=release-summary).",
         "targetAbi": "10.8.1.0",
