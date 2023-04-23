@@ -60,7 +60,10 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
                     let m = r.Match(f.Name)
                     where m.Success
                     let n = m.Groups.["n"].Value
-                    select (if m.Groups.ContainsKey("baha") then n.Replace("‛", "") else n)
+                    select (
+                      if m.Groups.ContainsKey("baha") then n.Replace("‛", "") else
+                      if m.Groups.ContainsKey("dmg") then n.Replace('_', ' ') else n
+                    )
                     head 
                 }
 
