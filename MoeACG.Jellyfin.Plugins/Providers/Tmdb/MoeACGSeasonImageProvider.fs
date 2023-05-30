@@ -13,7 +13,6 @@ type MoeACGSeasonImageProvider(httpClientFactory: IHttpClientFactory) =
         member _.Name = TmdbUtils.ProviderName
         member _.Supports(item) = item :? Season
         member _.GetSupportedImages(_) = seq { ImageType.Primary }
-        member x.GetImages(item, cancellationToken) =
-            Task.FromResult(Seq.empty)
+        member x.GetImages(_item, _cancellationToken) = Task.FromResult(Seq.empty)
         member _.GetImageResponse(url, cancellationToken) =
             httpClientFactory.CreateClient(NamedClient.Default).GetAsync(url, cancellationToken)

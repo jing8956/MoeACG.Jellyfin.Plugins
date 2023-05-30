@@ -10,7 +10,7 @@ type TmdbClientManager(memoryCache: IMemoryCache, logger: ILogger<TmdbClientMana
     let [<Literal>] CacheDurationInHours = 1.0
     let tmDbClient = new TMDbClient(TmdbUtils.ApiKey)
     // Not really interested in NotFoundException
-    do tmDbClient.ThrowApiExceptions <- false
+    do tmDbClient.ThrowApiExceptions <- true
 
     let ensureClientConfigAsync =
         task {
@@ -59,6 +59,22 @@ type TmdbClientManager(memoryCache: IMemoryCache, logger: ILogger<TmdbClientMana
             logger.LogDebug("Enter AsyncGetTvShowAlternativeTitles: id '{Id}'.", id :> obj)
             return! getOrRequestAsync $"tv-{id}-alternative-titles" (
                 fun client -> client.GetTvShowAlternativeTitlesAsync(id, cancellationToken))
+        }
+
+
+    member _.GetTvShowsAsync(id, method, cancellationToken) =
+        task {
+            logger.LogDebug("Enter AsyncGetTvShows: id '{Id}', method '{Method}'.", id :> obj, method)
+            return! getOrRequestAsync $"tv-{id}-{method}" (
+                fun client -> client.GetTvShowAsync(id, method, cancellationToken = cancellationToken)
+            )
+        }
+    member _.GetTvEpisodeGroupsAsync(id, language, cancellationToken) =
+        task {
+            logger.LogDebug("Enter AsyncGetTvEpisodeGroups: id '{Id}'.", id :> obj)
+            return! getOrRequestAsync $"tv-{id}-episode-groups " (
+                fun client -> client.GetTvEpisodeGroupsAsync(id, language, cancellationToken)
+            )
         }
 
     interface IDisposable with 
