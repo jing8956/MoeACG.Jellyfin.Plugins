@@ -90,6 +90,10 @@ type MoeACGEpisodeProvider(
             
                                         ``type``
                                         |> Option.bind (tryValueWhenContains "third" 3)
+
+                                        name
+                                        |> tryGetZhHansNumber
+                                        |> Option.bind tryCastZhHansNumber
                                     } |> Seq.reduce (fun t1 t2 -> t1 |> Option.orElse t2)
                                 match index with
                                 | Some order ->
