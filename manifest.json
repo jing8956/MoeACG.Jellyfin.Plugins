@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.36",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* cc20c4ee3c031593c4b0e66857eac713f1c7e9c8 针对动画疯特别设置的剧集组\r\n* 17c946492ff56fdea08e57a7e349525f72b1b565 Update manifest.json\r\n* ba277ec4fb4cf2359b6d76e490b50b1d2d054965 Cleanup manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=124&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.36/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "694e9265542014a5b67ca055fe6e1b03",
+        "timestamp": "2023-05-31 06:26:08"
+      },
+      {
         "version": "0.0.0.35",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* fc05e0bdbff084c378f57a2452195cf44aa49bf9 针对动画疯特别设置的剧集组\r\n* 161516368b2f9f0ebae773b6af0187cc9d265e1a Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=123&_a=release-summary).",
         "targetAbi": "10.8.1.0",
