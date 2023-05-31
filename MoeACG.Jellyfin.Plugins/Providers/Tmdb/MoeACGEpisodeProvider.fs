@@ -94,6 +94,8 @@ type MoeACGEpisodeProvider(
                                         name
                                         |> tryGetZhHansNumber
                                         |> Option.bind tryCastZhHansNumber
+
+                                        Some(1)
                                     } |> Seq.reduce (fun t1 t2 -> t1 |> Option.orElse t2)
                                 match index with
                                 | Some order ->
