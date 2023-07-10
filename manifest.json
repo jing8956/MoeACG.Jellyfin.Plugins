@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.38",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 6e9ec74689ccbd82c2e712fa59dffabef95a2d37 low_line\r\n* 068c7d4ef0b55875d712c390dc2a35de7b4c09ec Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=126&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.38/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "27356af6f688071131004fb60fa73c8d",
+        "timestamp": "2023-07-10 08:08:51"
+      },
+      {
         "version": "0.0.0.37",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* ff7a7989db11a1b12559db0ef24d63144be47d5e 针对动画疯特别设置的剧集组\r\n* 682bcc959c0d382673d658bf63b2e41780e42fea Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=125&_a=release-summary).",
         "targetAbi": "10.8.1.0",
