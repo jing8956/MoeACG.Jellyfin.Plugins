@@ -80,13 +80,14 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
             if files |> Seq.exists (fun f -> String.Equals(f.Name, "season.nfo", StringComparison.OrdinalIgnoreCase)) then null else
             if parent :? Series |> not then null else
 
+            let files = files |> Seq.where (fun f -> not f.IsDirectory)
             let result = new MultiItemResolverResult()
             for file in files do
                 let ep = Episode(Path = file.FullName)
                 let tryGetValue (name:string) (m:Match) =
                     let group = m.Groups.[name]
                     if group.Success then ValueSome group.Value else ValueNone
-                let setResult m =
+                let foundAction m =
                     // 名称
                     tryGetValue "n" m
                     |> ValueOption.map (fun n -> if m.Groups.ContainsKey("baha") then n.Replace("‛", "") else n)
@@ -110,10 +111,12 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
                     tryGetValue "s" m
                     |> ValueOption.bind tryCastNumber
                     |> ValueOption.iter (fun i -> ep.ParentIndexNumber <- i)
+
+                    result.Items.Add(ep)
+
                 episodeRegexsProvider.EpisodeRegexs
                 |> Seq.map (fun r -> r.Match(file.Name))
                 |> Seq.tryFind (fun m -> m.Success)
-                |> Option.iter setResult
-                result.Items.Add(ep)
-                    
+                |> Option.iter (foundAction)
+             
             result
