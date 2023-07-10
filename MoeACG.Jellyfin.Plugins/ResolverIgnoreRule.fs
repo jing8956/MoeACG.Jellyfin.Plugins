@@ -10,7 +10,7 @@ open MediaBrowser.Controller.Entities
 open MediaBrowser.Controller.Library
 open MediaBrowser.Model.Entities
 
-type ResolverIgnoreRule(episodeRegexsProvider: EpisodeRegexsProvider,libraryManager:ILibraryManager) =
+type ResolverIgnoreRule(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager:ILibraryManager) =
     static let mediaFileExtensions = [| ".mp4"; ".mkv" |]
     let isMediaFileExtension extension = mediaFileExtensions |> Seq.contains extension
 
@@ -18,24 +18,19 @@ type ResolverIgnoreRule(episodeRegexsProvider: EpisodeRegexsProvider,libraryMana
         member _.ShouldIgnore(fileInfo, parent) =
             match parent with
             | :? Season | :? Series ->
-                if fileInfo.IsDirectory then true
-                else if fileInfo.Extension |> isMediaFileExtension |> not then true
-                else if fileInfo.Name |> episodeRegexsProvider.CanResolve |> not then true
-                else false
+                not(fileInfo.IsDirectory)
+                && not(fileInfo.Extension |> isMediaFileExtension)
+                && not(fileInfo.Name |> episodeRegexsProvider.CanResolve)
             | :? AggregateFolder -> false
             | :? UserRootFolder -> false
             | :? Folder ->
                 let collectionType = libraryManager.GetContentType(parent)
                 let isTvShows = String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase)
-                if isTvShows then
-                    if fileInfo.IsDirectory |> not then true
-                    else
-                        let files = Directory.EnumerateFiles(fileInfo.FullName)
-                        let canResolve (path:string) =
-                            let fileName = Path.GetFileNameWithoutExtension path
-                            let extension = Path.GetExtension(path)
-                            extension |> isMediaFileExtension && episodeRegexsProvider.CanResolve fileName
-                        let exists = files |> Seq.exists canResolve
-                        exists |> not
-                else false
+
+                if not isTvShows then false else
+                if not fileInfo.IsDirectory then true else
+                Directory.EnumerateFiles(fileInfo.FullName)
+                |> Seq.where (fun path -> Path.GetExtension(path) |> isMediaFileExtension)
+                |> Seq.where (fun path -> Path.GetFileName(path) |> episodeRegexsProvider.CanResolve)
+                |> Seq.isEmpty
             | _ -> false

@@ -62,7 +62,7 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
                     let n = m.Groups.["n"].Value
                     select (
                       if m.Groups.ContainsKey("baha") then n.Replace("‛", "") else
-                      if m.Groups.ContainsKey("dmg") then n.Replace('_', ' ') else n
+                      if m.Groups.ContainsKey("low_line") then n.Replace('_', ' ') else n
                     )
                     head 
                 }
