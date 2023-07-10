@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.39",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 86c9da12dba0beef67b96caed51b89d94f4375d4 修复 FileNotFoundException\r\n* 2807dab778497bddc33a9f59a68e4298b364d2cb Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=127&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.39/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "9ef52a264af50fcb0c02c09a65d29ac5",
+        "timestamp": "2023-07-10 09:57:24"
+      },
+      {
         "version": "0.0.0.38",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 6e9ec74689ccbd82c2e712fa59dffabef95a2d37 low_line\r\n* 068c7d4ef0b55875d712c390dc2a35de7b4c09ec Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=126&_a=release-summary).",
         "targetAbi": "10.8.1.0",
