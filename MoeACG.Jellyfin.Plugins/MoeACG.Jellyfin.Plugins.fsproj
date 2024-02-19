@@ -17,6 +17,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>False</Visible>
     </None>
+    <None Include="$(PkgTMDbLib)\lib\$(FSharpCoreTargetFramework)\TMDbLib.dll">
+      <Link>TMDbLib.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </None>
     <Folder Update="zh-Hans">
       <Visible>False</Visible>
     </Folder>
@@ -46,7 +51,7 @@
     <PackageReference Include="Jellyfin.Controller" Version="10.8.13" />
     <PackageReference Include="Jellyfin.Model" Version="10.8.13" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-    <PackageReference Include="TMDbLib" Version="2.1.0" />
+    <PackageReference Include="TMDbLib" Version="2.1.0" GeneratePathProperty="true" />
   </ItemGroup>
 
 </Project>
