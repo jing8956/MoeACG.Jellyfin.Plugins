@@ -30,46 +30,6 @@
         "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.40/MoeACG.Jellyfin.Plugins.zip",
         "checksum": "f83ee8cd8ad851acbaef5dc9e36efc53",
         "timestamp": "2024-02-19 02:59:48"
-      },
-      {
-        "version": "0.0.0.39",
-        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 86c9da12dba0beef67b96caed51b89d94f4375d4 修复 FileNotFoundException\r\n* 2807dab778497bddc33a9f59a68e4298b364d2cb Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=127&_a=release-summary).",
-        "targetAbi": "10.8.1.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.39/MoeACG.Jellyfin.Plugins.zip",
-        "checksum": "9ef52a264af50fcb0c02c09a65d29ac5",
-        "timestamp": "2023-07-10 09:57:24"
-      },
-      {
-        "version": "0.0.0.38",
-        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 6e9ec74689ccbd82c2e712fa59dffabef95a2d37 low_line\r\n* 068c7d4ef0b55875d712c390dc2a35de7b4c09ec Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=126&_a=release-summary).",
-        "targetAbi": "10.8.1.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.38/MoeACG.Jellyfin.Plugins.zip",
-        "checksum": "27356af6f688071131004fb60fa73c8d",
-        "timestamp": "2023-07-10 08:08:51"
-      },
-      {
-        "version": "0.0.0.37",
-        "changelog": "\r\n\r\n## Changes:\r\n\r\n* ff7a7989db11a1b12559db0ef24d63144be47d5e 针对动画疯特别设置的剧集组\r\n* 682bcc959c0d382673d658bf63b2e41780e42fea Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=125&_a=release-summary).",
-        "targetAbi": "10.8.1.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.37/MoeACG.Jellyfin.Plugins.zip",
-        "checksum": "bd35f2dc6cd5b8b15c94e6bf05d7adbb",
-        "timestamp": "2023-05-31 07:31:40"
-      },
-      {
-        "version": "0.0.0.36",
-        "changelog": "\r\n\r\n## Changes:\r\n\r\n* cc20c4ee3c031593c4b0e66857eac713f1c7e9c8 针对动画疯特别设置的剧集组\r\n* 17c946492ff56fdea08e57a7e349525f72b1b565 Update manifest.json\r\n* ba277ec4fb4cf2359b6d76e490b50b1d2d054965 Cleanup manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=124&_a=release-summary).",
-        "targetAbi": "10.8.1.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.36/MoeACG.Jellyfin.Plugins.zip",
-        "checksum": "694e9265542014a5b67ca055fe6e1b03",
-        "timestamp": "2023-05-31 06:26:08"
-      },
-      {
-        "version": "0.0.0.35",
-        "changelog": "\r\n\r\n## Changes:\r\n\r\n* fc05e0bdbff084c378f57a2452195cf44aa49bf9 针对动画疯特别设置的剧集组\r\n* 161516368b2f9f0ebae773b6af0187cc9d265e1a Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=123&_a=release-summary).",
-        "targetAbi": "10.8.1.0",
-        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.35/MoeACG.Jellyfin.Plugins.zip",
-        "checksum": "7471b430cfcf72932c56f33e72f919a6",
-        "timestamp": "2023-05-30 14:34:19"
       }
     ]
   }
