@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.41",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 12fa9e006066ed55e85f6319b81198a111164668 Copy TMDbLib to package\r\n* 09463b57bccbc108582eb1c8f30946516f5162bd Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=129&_a=release-summary).",
+        "targetAbi": "10.8.1.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.41/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "af5d10a1b928a4ebb3b0eb9e87c6335f",
+        "timestamp": "2024-02-19 03:13:04"
+      },
+      {
         "version": "0.0.0.40",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 4fda4b615481ba07a356c96972e0889e5195fd16 Update Test Packages\r\n* d4f5977378c529bc083f076e397bdce4654b271b Update package\r\n* cf95f738f9b0b7ba2a457955a4ab2802eed7e8bf Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=128&_a=release-summary).",
         "targetAbi": "10.8.1.0",
