@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.42",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 47a68184cc67e7a23ae5631255b69b3c810fe4e0 Update azure-pipelines.yml for Azure Pipelines\r\n* 1c830e60dfd15b9032c21e304c6e4581d19ba896 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=130&_a=release-summary).",
+        "targetAbi": "10.8.13.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.42/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "c82e6a2d59e905ff29402b21a4e8023e",
+        "timestamp": "2024-02-19 03:25:36"
+      },
+      {
         "version": "0.0.0.41",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 12fa9e006066ed55e85f6319b81198a111164668 Copy TMDbLib to package\r\n* 09463b57bccbc108582eb1c8f30946516f5162bd Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=129&_a=release-summary).",
         "targetAbi": "10.8.1.0",
