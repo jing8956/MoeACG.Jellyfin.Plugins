@@ -9,9 +9,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "JELLYFIN_DATA_DIR": "%USERPROFILE%\\source\\jellyfin-data",
-        "JELLYFIN_WEB_DIR": "%USERPROFILE%\\source\\jellyfin-web",
-        "http_proxy": "http://localhost:32540/",
-        "https_proxy": "http://localhost:32540/"
+        "JELLYFIN_WEB_DIR": "%USERPROFILE%\\source\\jellyfin-web"
       }
     }
   }

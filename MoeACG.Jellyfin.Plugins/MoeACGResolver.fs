@@ -38,6 +38,17 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
     
     let [<Literal>] regexOptions = RegexOptions.ExplicitCapture
     let isBaha fileName = Regex.IsMatch(fileName, "^【動畫瘋】", regexOptions)
+    let tryGetValue (name:string) (m:Match) =
+        let group = m.Groups.[name]
+        if group.Success then ValueSome group.Value else ValueNone
+    let numberZhHansTable = "一二三四五六七八九十"
+    let tryCastNumber (s:string) = 
+        numberZhHansTable.IndexOf(s)
+        |> function | -1 -> ValueNone | i -> ValueSome(i + 1)
+        |> ValueOption.orElseWith (fun() ->
+            match Int32.TryParse(s) with
+            | (true, v) -> ValueSome(v)
+            | _ -> ValueNone)
 
     interface IItemResolver with
         member _.Priority = ResolverPriority.First
@@ -52,22 +63,27 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
             if args.ContainsFileSystemEntryByName("season.nfo") then null else
             
             let result = Series(Path = args.Path)
-            let name =
+            let name, year =
                 query {
                     for f in args.FileSystemChildren do
                     where (f.IsDirectory |> not)
                     for r in episodeRegexsProvider.EpisodeRegexs do
                     let m = r.Match(f.Name)
                     where m.Success
-                    let n = m.Groups.["n"].Value
-                    select (
-                      if m.Groups.ContainsKey("baha") then n.Replace("‛", "") else
-                      if m.Groups.ContainsKey("low_line") then n.Replace('_', ' ') else n
-                    )
-                    head 
+                    let n =
+                        match m.Groups.["n"].Value with
+                        | n when m.Groups.ContainsKey("baha") -> n.Replace("‛", "")
+                        | n when m.Groups.ContainsKey("low_line") -> n.Replace('_', ' ')
+                        | n -> n
+                    let year =
+                        tryGetValue "year" m
+                        |> ValueOption.bind tryCastNumber
+                    select (n, year)
+                    head
                 }
 
             result.Name <- name.Trim()
+            year |> ValueOption.iter (fun year -> result.ProductionYear <-  year)   
             result.IsRoot <- args.Parent |> isNull
             upcast result
 
@@ -84,9 +100,6 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
             let result = new MultiItemResolverResult()
             for file in files do
                 let ep = Episode(Path = file.FullName)
-                let tryGetValue (name:string) (m:Match) =
-                    let group = m.Groups.[name]
-                    if group.Success then ValueSome group.Value else ValueNone
                 let foundAction m =
                     // 名称
                     tryGetValue "n" m
@@ -98,19 +111,15 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
                     |> ValueOption.map int
                     |> ValueOption.iter (fun i -> ep.IndexNumber <- i)
 
-                    let numberZhHansTable = "一二三四五六七八九十"
-                    let tryCastNumber (s:string) = 
-                        numberZhHansTable.IndexOf(s)
-                        |> function | -1 -> ValueNone | i -> ValueSome(i + 1)
-                        |> ValueOption.orElseWith (fun() ->
-                            match Int32.TryParse(s) with
-                            | (true, v) -> ValueSome(v)
-                            | _ -> ValueNone)
-
                     // 季数
                     tryGetValue "s" m
                     |> ValueOption.bind tryCastNumber
                     |> ValueOption.iter (fun i -> ep.ParentIndexNumber <- i)
+
+                    // 年份
+                    tryGetValue "year" m
+                    |> ValueOption.bind tryCastNumber
+                    |> ValueOption.iter (fun i -> ep.ProductionYear <- i)
 
                     result.Items.Add(ep)
 

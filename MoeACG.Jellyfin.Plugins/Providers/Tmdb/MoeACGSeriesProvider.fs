@@ -28,18 +28,6 @@ type MoeACGSeriesProvider(
                 let id = info.GetProviderId(MetadataProvider.Tmdb)
                 if String.IsNullOrEmpty(id) |> not then return result else
 
-                // let tryFindByExternalId (provider:MetadataProvider) (source) =
-                //     task {
-                //         let succeed, id = info.TryGetProviderId(provider)
-                //         if succeed then
-                //             let! searchResult = tmdbClientManager.FindByExternalIdAsync(id, source, info.MetadataLanguage, cancellationToken)
-                //             return searchResult
-                //             |> Option.ofObj
-                //             |> Option.filter (fun r -> r.TvResults.Count > 0)
-                //             |> Option.map (fun r -> r.TvResults.[0].Id.ToString("D"))
-                //         else return None
-                //     }
-
                 let year = info.Year |> ValueOption.ofNullable |> ValueOption.defaultValue 0
                 let tryCastZhHansNumber (s:string) =
                     let numberZhHansTable = "一二三四五六七八九十"
