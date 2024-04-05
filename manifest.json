@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.44",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 372f3580d1116d1d83349ca52fdb074e2b4f820f 刮削文件名中的年份\r\n* 7d9edeae45ea7e68da33c0dba1b9b9eacbf797c6 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=132&_a=release-summary).",
+        "targetAbi": "10.8.13.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.44/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "b7eb6b2cc1c97005dfdd073f2c08d0a4",
+        "timestamp": "2024-04-05 12:45:58"
+      },
+      {
         "version": "0.0.0.43",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 8e77420a39a826823e575119fbb6c900829d15cb Downgrade TMDbLib\r\n* 50dfd867fb00ec5ea5c2804461cf9deb93f6ff80 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=131&_a=release-summary).",
         "targetAbi": "10.8.13.0",
