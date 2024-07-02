@@ -17,4 +17,4 @@ type EpisodeRegexsProvider(logger: ILogger<EpisodeRegexsProvider>) =
                 logger.LogWarning(e, "Create regex failed.")
                 None
         )
-    member x.CanResolve fileName = x.EpisodeRegexs |> Seq.exists (fun r -> r.IsMatch(fileName)) 
+    member x.CanResolve (fileName: ReadOnlyMemory<char>) = x.EpisodeRegexs |> Seq.exists (fun r -> r.IsMatch(fileName.Span)) 

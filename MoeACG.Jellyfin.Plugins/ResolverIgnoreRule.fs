@@ -9,6 +9,7 @@ open MediaBrowser.Controller.Entities.TV
 open MediaBrowser.Controller.Entities
 open MediaBrowser.Controller.Library
 open MediaBrowser.Model.Entities
+open Jellyfin.Data.Enums
 
 type ResolverIgnoreRule(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager:ILibraryManager) =
     static let mediaFileExtensions = [| ".mp4"; ".mkv" |]
@@ -20,17 +21,19 @@ type ResolverIgnoreRule(episodeRegexsProvider: EpisodeRegexsProvider, libraryMan
             | :? Season | :? Series ->
                 not(fileInfo.IsDirectory)
                 && not(fileInfo.Extension |> isMediaFileExtension)
-                && not(fileInfo.Name |> episodeRegexsProvider.CanResolve)
+                && not(fileInfo.Name.AsMemory() |> episodeRegexsProvider.CanResolve)
             | :? AggregateFolder -> false
             | :? UserRootFolder -> false
             | :? Folder ->
                 let collectionType = libraryManager.GetContentType(parent)
-                let isTvShows = String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase)
+                let isTvShows =
+                    collectionType.HasValue &&
+                    collectionType.Value = CollectionType.tvshows
 
                 if not isTvShows then false else
                 if not fileInfo.IsDirectory then true else
                 Directory.EnumerateFiles(fileInfo.FullName)
                 |> Seq.where (fun path -> Path.GetExtension(path) |> isMediaFileExtension)
-                |> Seq.where (fun path -> Path.GetFileName(path) |> episodeRegexsProvider.CanResolve)
+                |> Seq.where (fun path -> Path.GetFileName(path).AsMemory() |> episodeRegexsProvider.CanResolve)
                 |> Seq.isEmpty
             | _ -> false

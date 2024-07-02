@@ -9,6 +9,8 @@ open System.Text.RegularExpressions
 open MediaBrowser.Controller.Library
 open MediaBrowser.Model.Entities
 open MoeACG.Jellyfin.Plugins
+open System
+open Jellyfin.Data.Enums
 
 // [<Struct>]
 // type EpisodeType =
@@ -37,7 +39,7 @@ open MoeACG.Jellyfin.Plugins
 type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager: ILibraryManager, logger: ILogger<MoeACGResolver>) =
     
     let [<Literal>] regexOptions = RegexOptions.ExplicitCapture
-    let isBaha fileName = Regex.IsMatch(fileName, "^【動畫瘋】", regexOptions)
+    let isBaha (fileName: ReadOnlySpan<char>) = Regex.IsMatch(fileName, "^【動畫瘋】", regexOptions)
     let tryGetValue (name:string) (m:Match) =
         let group = m.Groups.[name]
         if group.Success then ValueSome group.Value else ValueNone
@@ -58,7 +60,9 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
             if args.Parent :? UserRootFolder  then null else
 
             let collectionType = libraryManager.GetContentType(args.Parent)
-            if String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase) |> not then null else
+            
+            if collectionType.HasValue |> not then null else
+            if collectionType.Value <> Jellyfin.Data.Enums.CollectionType.tvshows then null else
             if args.ContainsFileSystemEntryByName("tvshow.nfo") then null else
             if args.ContainsFileSystemEntryByName("season.nfo") then null else
             
@@ -89,9 +93,11 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
 
     interface IMultiItemResolver with
         member _.ResolveMultiple(parent, files, collectionType, directoryService) =
+
             if parent :? AggregateFolder then null else
             if parent :? UserRootFolder  then null else
-            if String.Equals(collectionType, CollectionType.TvShows, StringComparison.OrdinalIgnoreCase) |> not then null else
+            if collectionType.HasValue |> not then null else
+            if collectionType.Value <> CollectionType.tvshows then null else
             if files |> Seq.exists (fun f -> String.Equals(f.Name, "tvshow.nfo", StringComparison.OrdinalIgnoreCase)) then null else
             if files |> Seq.exists (fun f -> String.Equals(f.Name, "season.nfo", StringComparison.OrdinalIgnoreCase)) then null else
             if parent :? Series |> not then null else
