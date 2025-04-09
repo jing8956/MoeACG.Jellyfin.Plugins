@@ -78,7 +78,7 @@ type MoeACGResolver(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager
                         match m.Groups.["n"].Value with
                         | n when m.Groups.ContainsKey("baha") -> n.Replace("‛", "")
                         | n when m.Groups.ContainsKey("low_line") -> n.Replace('_', ' ')
-                        | n when m.Groups.ContainsKey("period") -> n.Replace('.', '')
+                        | n when m.Groups.ContainsKey("period") -> n.Replace('.', ' ')
                         | n -> n
                     let year =
                         tryGetValue "year" m
