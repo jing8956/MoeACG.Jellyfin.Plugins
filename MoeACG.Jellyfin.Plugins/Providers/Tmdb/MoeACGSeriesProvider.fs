@@ -15,6 +15,7 @@ type MoeACGSeriesProvider(
     tmdbClientManager: TmdbClientManager,
     logger: ILogger<MoeACGSeriesProvider>) =
 
+    static let ofTry (b, v) = if b then Some(v) else None
     static let [<Literal>] regexOptions = RegexOptions.Compiled ||| RegexOptions.ExplicitCapture
 
     // After TheTVDB
@@ -29,10 +30,12 @@ type MoeACGSeriesProvider(
                 if String.IsNullOrEmpty(id) |> not then return result else
 
                 let year = info.Year |> ValueOption.ofNullable |> ValueOption.defaultValue 0
+                let tryCastNumber (s: string) =
+                    s |> Int32.TryParse |> ofTry
                 let tryCastZhHansNumber (s:string) =
                     let numberZhHansTable = "一二三四五六七八九十"
                     numberZhHansTable.IndexOf(s)
-                    |> function | -1 -> None | i -> Some(i + 1)
+                    |> function | -1 -> tryCastNumber(s) | i -> Some(i + 1)
                 let mutable name, ssNumber =
                     match Regex.Match(info.Name, "(?<n>.+?)第(?<s>.)季", regexOptions) with
                     | m when m.Success ->
