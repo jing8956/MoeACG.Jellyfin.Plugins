@@ -16,6 +16,7 @@ type MoeACGEpisodeProvider(
     tmdbClientManager: TmdbClientManager,
     httpClientFactory: IHttpClientFactory) =
 
+    static let ofTry (b, v) = if b then Some(v) else None
     static let [<Literal>] regexOptions = RegexOptions.Compiled ||| RegexOptions.ExplicitCapture
 
     interface IHasOrder with member _.Order = 1
@@ -63,11 +64,14 @@ type MoeACGEpisodeProvider(
                                     let tryGetZhHansNumber s =
                                         let g = Regex.Match(s, "第(?<s>.)季", regexOptions).Groups.["s"]
                                         if g.Success then Some(g.Value) else None
+                                    
+                                    let tryCastNumber (s: string) =
+                                        s |> Int32.TryParse |> ofTry
 
                                     let tryCastZhHansNumber (s:string) =
                                         let numberZhHansTable = "一二三四五六七八九十"
                                         numberZhHansTable.IndexOf(s)
-                                        |> function | -1 -> None | i -> Some(i + 1)
+                                        |> function | -1 -> tryCastNumber(s) | i -> Some(i + 1)
             
                                     let tryGetEnNumber s =
                                         let g = Regex.Match(s, "[Ss](eason ?)?(?<s>\d+)", regexOptions).Groups.["s"]
@@ -118,8 +122,7 @@ type MoeACGEpisodeProvider(
                 | _ -> ()
 
                 if not result.HasMetadata && info.ParentIndexNumber ?= 1 then
-                    let ofTry (b, v) = if b then Some(v) else None
-
+                    
                     info.SeriesProviderIds.TryGetValue(TmdbUtils.SeasonNumber)
                     |> ofTry
                     |> Option.map (fun s -> Int32.TryParse(s))
