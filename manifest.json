@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.49",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* f145216feadc7dd06bc3d49b3a01fc0184d85cd3 升级至 Jellyfin 10.10.7\r\n* 5f70b286deadf984018865651a555476a7859388 别名 type 支持混用中文阿拉伯数字\r\n* ea8a62b0c21c59ebf7394caadda2995149deb923 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=137&_a=release-summary).",
+        "targetAbi": "10.8.13.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.49/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "97768d724ccb56f5f2bca689c1aa2a06",
+        "timestamp": "2025-06-04 04:24:10"
+      },
+      {
         "version": "0.0.0.48",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* 1b4f477667708744a69ba4579cb4dc18a79db762 别名 type 支持混用中文阿拉伯数字\r\n* b6430c683c86a1e140fe218c9ec69557b6282c17 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=136&_a=release-summary).",
         "targetAbi": "10.8.13.0",
