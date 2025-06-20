@@ -8,8 +8,8 @@ open MediaBrowser.Controller.Resolvers
 open MediaBrowser.Controller.Entities.TV
 open MediaBrowser.Controller.Entities
 open MediaBrowser.Controller.Library
-open MediaBrowser.Model.Entities
 open Jellyfin.Data.Enums
+open MoeACG.Jellyfin.Plugins.Providers.Tmdb
 
 type ResolverIgnoreRule(episodeRegexsProvider: EpisodeRegexsProvider, libraryManager:ILibraryManager) =
     static let mediaFileExtensions = [| ".mp4"; ".mkv" |]
@@ -31,6 +31,12 @@ type ResolverIgnoreRule(episodeRegexsProvider: EpisodeRegexsProvider, libraryMan
                     collectionType.Value = CollectionType.tvshows
 
                 if not isTvShows then false else
+
+                let libraryOptions = libraryManager.GetLibraryOptions(parent)
+                let disabledProviders = libraryOptions.DisabledMediaSegmentProviders
+                let isDisabled = disabledProviders |> Array.contains TmdbUtils.ProviderName
+                if isDisabled then false else
+
                 if not fileInfo.IsDirectory then true else
                 Directory.EnumerateFiles(fileInfo.FullName)
                 |> Seq.where (fun path -> Path.GetExtension(path) |> isMediaFileExtension)

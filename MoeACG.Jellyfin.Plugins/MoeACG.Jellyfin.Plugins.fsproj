@@ -29,7 +29,6 @@
     <Compile Include="Plugin.fs" />
     <Compile Include="EpisodeRegexsProvider.fs" />
     <Compile Include="MoeACGResolver.fs" />
-    <Compile Include="ResolverIgnoreRule.fs" />
     <Compile Include="Providers\Tmdb\TmdbUtils.fs" />
     <Compile Include="Providers\Tmdb\TmdbClientManager.fs" />
     <Compile Include="Providers\Tmdb\MoeACGSeriesProvider.fs" />
@@ -38,6 +37,7 @@
     <Compile Include="Providers\Tmdb\MoeACGSeasonImageProvider.fs" />
     <Compile Include="Providers\Tmdb\MoeACGEpisodeProvider.fs" />
     <Compile Include="Providers\Tmdb\MoeACGEpisodeImageProvider.fs" />
+    <Compile Include="ResolverIgnoreRule.fs" />
     <Compile Include="PluginServiceRegistrator.fs" />
   </ItemGroup>
 
