@@ -8,6 +8,14 @@
     "category": "Metadata",
     "versions": [
       {
+        "version": "0.0.0.50",
+        "changelog": "\r\n\r\n## Changes:\r\n\r\n* 1743e97ef8123274dc8b5137a4f7ee2c68798b34 IgnoreRule 检查是否被禁用\r\n* b607da1589e8af4e9b3bc7f1a4e923f2cd07835c Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=138&_a=release-summary).",
+        "targetAbi": "10.8.13.0",
+        "sourceUrl": "https://github.com/jing8956/MoeACG.Jellyfin.Plugins/releases/download/0.0.0.50/MoeACG.Jellyfin.Plugins.zip",
+        "checksum": "56e9c763cd6711a4b59e541efdf0877b",
+        "timestamp": "2025-06-20 04:58:53"
+      },
+      {
         "version": "0.0.0.49",
         "changelog": "\r\n\r\n## Changes:\r\n\r\n* f145216feadc7dd06bc3d49b3a01fc0184d85cd3 升级至 Jellyfin 10.10.7\r\n* 5f70b286deadf984018865651a555476a7859388 别名 type 支持混用中文阿拉伯数字\r\n* ea8a62b0c21c59ebf7394caadda2995149deb923 Update manifest.json\r\n\r\nThis list of changes was [auto generated](https://jing8956.visualstudio.com/a4b63e63-751f-4b20-b6e7-be03033893c7/_release?releaseId=137&_a=release-summary).",
         "targetAbi": "10.8.13.0",
