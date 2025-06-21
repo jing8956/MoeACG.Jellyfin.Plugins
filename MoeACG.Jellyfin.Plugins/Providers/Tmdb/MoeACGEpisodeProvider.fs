@@ -140,7 +140,10 @@ type MoeACGEpisodeProvider(
                         // 集数
                         tryGetValue "i" m
                         |> ValueOption.map int
-                        |> ValueOption.iter (fun i -> info.IndexNumber <- i)
+                        |> ValueOption.iter (fun i ->
+                            result.HasMetadata <- true
+                            if result.Item = null then result.Item <- new Episode()
+                            result.Item.IndexNumber <- i)
 
                         let numberZhHansTable = "一二三四五六七八九十"
                         let tryCastNumber (s:string) = 
@@ -154,7 +157,12 @@ type MoeACGEpisodeProvider(
                         // 季数
                         tryGetValue "s" m
                         |> ValueOption.bind tryCastNumber
-                        |> ValueOption.iter (fun i -> info.ParentIndexNumber <- i)
+                        |> ValueOption.defaultValue 1
+                        |> fun i ->
+                            result.HasMetadata <- true
+                            if result.Item = null then result.Item <- new Episode()
+                            result.Item.ParentIndexNumber <- i
+
                     episodeRegexsProvider.EpisodeRegexs
                     |> Seq.map (fun r -> r.Match(fileName))
                     |> Seq.tryFind (fun m -> m.Success)

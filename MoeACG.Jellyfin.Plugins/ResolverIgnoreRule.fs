@@ -33,9 +33,9 @@ type ResolverIgnoreRule(episodeRegexsProvider: EpisodeRegexsProvider, libraryMan
                 if not isTvShows then false else
 
                 let libraryOptions = libraryManager.GetLibraryOptions(parent)
-                let disabledProviders = libraryOptions.DisabledMediaSegmentProviders
-                let isDisabled = disabledProviders |> Array.contains TmdbUtils.ProviderName
-                if isDisabled then false else
+                let enabledProviders = libraryOptions.GetTypeOptions("Series").MetadataFetchers
+                let isEnabled = enabledProviders |> Array.contains TmdbUtils.ProviderName
+                if not isEnabled then false else
 
                 if not fileInfo.IsDirectory then true else
                 Directory.EnumerateFiles(fileInfo.FullName)
