@@ -27,7 +27,7 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: false
-    projects: '$(solution)'
+    projects: '$(projects)'
     arguments: '-c $(buildConfiguration) -o $(Build.BinariesDirectory) -p:Version=$(Version.Tag)'
     zipAfterPublish: false
     modifyOutputPath: false
