@@ -11,7 +11,7 @@ pool:
 
 variables:
   projectName: 'MoeACG.Jellyfin.Plugins'
-  solution: '$(projectName).sln'
+  projects: '$(projectName)/$(projectName).fsproj'
   buildConfiguration: 'Release'
 
 steps:
